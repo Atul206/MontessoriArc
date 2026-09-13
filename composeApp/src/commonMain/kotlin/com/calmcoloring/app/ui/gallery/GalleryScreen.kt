@@ -28,7 +28,14 @@ fun GalleryScreen(
     onTemplateSelected: (String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    Column(modifier = modifier.fillMaxSize()) {
+    // safeDrawingPadding on the outer container keeps the title, the grid's
+    // first/last row, and the footer all clear of the status/navigation bars
+    // in edge-to-edge mode (android-skills:edge-to-edge) — matching
+    // ColoringScreen.kt's established pattern in this codebase. Only this
+    // single inset-consuming modifier is applied per hierarchy branch, so
+    // the grid's own contentPadding stays a flat 16.dp with no separate
+    // safeDrawing merge (avoids double-padding).
+    Column(modifier = modifier.fillMaxSize().safeDrawingPadding()) {
         Text(
             "Calm Coloring",
             style = MaterialTheme.typography.titleMedium,
@@ -36,12 +43,7 @@ fun GalleryScreen(
         )
         LazyVerticalGrid(
             columns = GridCells.Fixed(2),
-            // Merge the base 16.dp content padding with safeDrawing insets so
-            // the first/last grid row never sits under the status/navigation
-            // bars in edge-to-edge mode (android-skills:edge-to-edge, Lists).
-            contentPadding = WindowInsets.safeDrawing
-                .add(WindowInsets(left = 16.dp, top = 16.dp, right = 16.dp, bottom = 16.dp))
-                .asPaddingValues(),
+            contentPadding = PaddingValues(16.dp),
             horizontalArrangement = Arrangement.spacedBy(12.dp),
             verticalArrangement = Arrangement.spacedBy(12.dp),
             modifier = Modifier.weight(1f),
