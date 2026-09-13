@@ -25,6 +25,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.calmcoloring.app.model.Template
+import com.calmcoloring.app.platform.printArtwork
 import com.calmcoloring.app.theme.CalmPalette
 import com.calmcoloring.app.ui.canvas.RegionCanvas
 import kotlinx.coroutines.launch
@@ -68,8 +69,11 @@ fun ColoringScreen(
                 TextButton(onClick = { viewModel.reset() }) { Text("Start over") }
             }
             Row {
-                // Print button wired in Task 6; Share button wired in Task 8.
-                IconButton(onClick = { }, modifier = Modifier.size(touchTarget)) {
+                // Share button wired in Task 8.
+                IconButton(
+                    onClick = { scope.launch { printArtwork(graphicsLayer.toImageBitmap()) } },
+                    modifier = Modifier.size(touchTarget),
+                ) {
                     Icon(Icons.Filled.Print, contentDescription = "Print or export")
                 }
                 IconButton(
