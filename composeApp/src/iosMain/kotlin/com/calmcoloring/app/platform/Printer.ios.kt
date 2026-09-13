@@ -1,19 +1,11 @@
 package com.calmcoloring.app.platform
 
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ImageBitmap
 import com.calmcoloring.app.model.Template
 import kotlinx.cinterop.ExperimentalForeignApi
-import kotlinx.cinterop.addressOf
-import kotlinx.cinterop.usePinned
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import platform.CoreGraphics.CGBitmapContextCreate
-import platform.CoreGraphics.CGBitmapContextCreateImage
-import platform.CoreGraphics.CGColorSpaceCreateDeviceRGB
-import platform.CoreGraphics.CGImageAlphaInfo
 import platform.CoreGraphics.CGRectMake
-import platform.CoreGraphics.kCGBitmapByteOrder32Host
 import platform.Foundation.NSFileManager
 import platform.Foundation.NSLog
 import platform.Foundation.NSTemporaryDirectory
@@ -22,7 +14,7 @@ import platform.UIKit.UIActivityViewController
 import platform.UIKit.UIApplication
 import platform.UIKit.UIGraphicsPDFRenderer
 import platform.UIKit.UIGraphicsPDFRendererFormat
-import platform.UIKit.UIImage
+import platform.UIKit.popoverPresentationController
 import kotlin.math.roundToInt
 
 // Target raster density for the print PDF. PRD §5.4/§6 ask for output that
@@ -59,6 +51,7 @@ actual suspend fun printArtwork(
             val heightPx = (pageHeightPoints / 72f * PRINT_DPI).roundToInt()
             val bitmap = rasterizeTemplate(template, fills, unfilledColor, outlineColor, widthPx, heightPx)
             val uiImage = bitmap.toUIImage()
+                ?: error("Printer: CGBitmapContextCreate returned null for a ${widthPx}x$heightPx bitmap")
 
             val pageRect = CGRectMake(0.0, 0.0, pageWidthPoints.toDouble(), pageHeightPoints.toDouble())
             val renderer = UIGraphicsPDFRenderer(bounds = pageRect, format = UIGraphicsPDFRendererFormat())
@@ -81,48 +74,23 @@ actual suspend fun printArtwork(
         }
 
         val fileUrl = NSURL.fileURLWithPath(path)
-        val controller = UIApplication.sharedApplication.keyWindow?.rootViewController
+        val rootView = UIApplication.sharedApplication.keyWindow?.rootViewController
         val activityController = UIActivityViewController(activityItems = listOf(fileUrl), applicationActivities = null)
-        controller?.presentViewController(activityController, animated = true, completion = null)
+        // On iPad, UIActivityViewController presents as a popover and UIKit
+        // throws unless the popover has an anchor (sourceView or
+        // barButtonItem) — final review Finding 7b. Setting sourceView is
+        // harmless on iPhone (no popover there), so it's set unconditionally
+        // rather than gated on userInterfaceIdiom.
+        rootView?.view?.let { anchor ->
+            activityController.popoverPresentationController?.apply {
+                sourceView = anchor
+                sourceRect = anchor.bounds
+            }
+        }
+        rootView?.presentViewController(activityController, animated = true, completion = null)
     } catch (e: Exception) {
         // Don't let a PDF-rendering failure crash the app — log and give up
         // gracefully. No polished user-facing error UI in this task.
         NSLog("Printer: printArtwork failed: ${e.message}")
     }
-}
-
-/**
- * Converts a Compose [ImageBitmap] (Skia-backed on iOS) into a [UIImage] by
- * reading raw ARGB pixels and bridging them through a CoreGraphics
- * CGBitmapContext -> CGImage -> UIImage pipeline. There is no direct
- * ImageBitmap -> UIImage conversion in Compose Multiplatform; this bridge is
- * the standard approach.
- */
-@OptIn(ExperimentalForeignApi::class)
-private fun ImageBitmap.toUIImage(): UIImage {
-    val width = this.width
-    val height = this.height
-    val pixels = IntArray(width * height)
-    this.readPixels(pixels)
-
-    val colorSpace = CGColorSpaceCreateDeviceRGB()
-    // Pixels are packed as 0xAARRGGBB Ints (Compose's common ARGB_8888
-    // layout). kCGBitmapByteOrder32Host + AlphaPremultipliedFirst tells
-    // CoreGraphics to interpret each 32-bit word using the host's native
-    // byte order with alpha as the high-order byte, matching that layout.
-    val bitmapInfo = CGImageAlphaInfo.kCGImageAlphaPremultipliedFirst.value or kCGBitmapByteOrder32Host
-
-    val cgImage = pixels.usePinned { pinned ->
-        val context = CGBitmapContextCreate(
-            data = pinned.addressOf(0),
-            width = width.toULong(),
-            height = height.toULong(),
-            bitsPerComponent = 8u,
-            bytesPerRow = (width * 4).toULong(),
-            space = colorSpace,
-            bitmapInfo = bitmapInfo,
-        )
-        CGBitmapContextCreateImage(context)
-    }
-    return UIImage(cGImage = cgImage)
 }

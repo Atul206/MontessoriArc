@@ -21,14 +21,11 @@ import com.calmcoloring.app.ui.share.ShareSheet
  * Root composable and navigation host. Uses a minimal hand rolled back
  * stack instead of `androidx.navigation3`/`org.jetbrains.androidx.navigation3`
  * (see `com.calmcoloring.app.navigation.Route` for why that library is
- * ruled out for this project). There is no Android system-back interception
- * here (no `BackHandler`): `androidx.activity` — the module `BackHandler`
- * lives in — is Android-only, not a Compose Multiplatform commonMain API,
- * so wiring it here would need its own `expect`/`actual` split for a single
- * predictable-back gesture. For v1's 2-route graph, `ColoringScreen`'s own
- * in-app back button (Task 4) is sufficient; this can be revisited with an
- * `expect`/`actual` `BackHandler` if system back-gesture support becomes a
- * real requirement.
+ * ruled out for this project). System back-gesture interception on
+ * `ColoringScreen` (Android predictive back / hardware back) is wired via
+ * `com.calmcoloring.app.ui.SystemBackHandler`, a small `expect`/`actual`
+ * shim over the Android-only `androidx.activity.compose.BackHandler` — see
+ * that file for why the shim exists.
  */
 @Composable
 fun CalmColoringApp() {

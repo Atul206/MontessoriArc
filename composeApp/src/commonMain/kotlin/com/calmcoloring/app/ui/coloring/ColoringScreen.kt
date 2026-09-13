@@ -3,6 +3,7 @@ package com.calmcoloring.app.ui.coloring
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
@@ -27,6 +28,7 @@ import androidx.lifecycle.viewmodel.viewModelFactory
 import com.calmcoloring.app.model.Template
 import com.calmcoloring.app.platform.printArtwork
 import com.calmcoloring.app.theme.CalmPalette
+import com.calmcoloring.app.ui.SystemBackHandler
 import com.calmcoloring.app.ui.canvas.RegionCanvas
 import kotlinx.coroutines.launch
 
@@ -48,14 +50,22 @@ fun ColoringScreen(
     onShareRequested: (ImageBitmap) -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    val isDark = isSystemInDarkTheme()
     val viewModel: ColoringViewModel = viewModel(
-        factory = viewModelFactory { initializer { ColoringViewModel(template) } },
+        key = template.id,
+        factory = viewModelFactory {
+            initializer { ColoringViewModel(template, CalmPalette.swatchesFor(isDark)) }
+        },
     )
     val graphicsLayer = rememberGraphicsLayer()
     val scope = rememberCoroutineScope()
     val touchTarget = minTouchTargetDp()
     val unfilledColor = MaterialTheme.colorScheme.surface
     val outlineColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.55f)
+
+    // System back gesture/button returns to the gallery, same as the in-app
+    // back arrow below (Finding 5, final review).
+    SystemBackHandler(onBack = onBack)
 
     // safeDrawingPadding keeps the topbar's back/print/share icons and the
     // palette swatches clear of the status/navigation bars in edge-to-edge
@@ -121,11 +131,11 @@ fun ColoringScreen(
             modifier = Modifier.fillMaxWidth().padding(16.dp),
             horizontalArrangement = Arrangement.spacedBy(14.dp, Alignment.CenterHorizontally),
         ) {
-            CalmPalette.swatches.forEach { swatch ->
+            CalmPalette.swatchesFor(isDark).forEach { swatch ->
                 val selected = swatch == viewModel.selectedColor
                 Box(
                     modifier = Modifier
-                        .size(touchTarget)
+                        .size(48.dp)
                         .clip(CircleShape)
                         .background(swatch)
                         .border(

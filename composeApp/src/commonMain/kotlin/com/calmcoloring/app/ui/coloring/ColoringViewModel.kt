@@ -9,8 +9,11 @@ import androidx.lifecycle.ViewModel
 import com.calmcoloring.app.model.Template
 import com.calmcoloring.app.theme.CalmPalette
 
-class ColoringViewModel(private val template: Template) : ViewModel() {
-    var selectedColor: Color by mutableStateOf(CalmPalette.swatches.first())
+class ColoringViewModel(
+    private val template: Template,
+    swatches: List<Color> = CalmPalette.swatches,
+) : ViewModel() {
+    var selectedColor: Color by mutableStateOf(swatches.first())
         private set
 
     private val _fills = mutableStateMapOf<String, Color>()
