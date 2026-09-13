@@ -4,6 +4,11 @@ compose-multiplatform = "1.10.3"
 agp = "9.4.0"
 androidx-activityCompose = "1.13.0"
 androidx-lifecycle = "2.9.4"
+# Task 8: androidx.core.content.FileProvider, used by Sharer.android.kt to
+# hand a cache-dir PNG to WhatsApp/Instagram/the system chooser via a
+# content:// URI (a raw file:// Uri would be blocked by StrictMode's
+# FileUriExposedException on API 24+).
+androidx-core-ktx = "1.17.0"
 # JetBrains' Compose-Multiplatform-compatible fork of Navigation 3, per
 # https://kotlinlang.org/docs/multiplatform/compose-navigation-3.html — publishes real
 # android/iosArm64/iosSimulatorArm64/iosX64/desktop/js/wasmJs targets under this group.
@@ -31,6 +36,7 @@ robolectric = "4.15.1"
 
 [libraries]
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activityCompose" }
+androidx-core-ktx = { module = "androidx.core:core-ktx", version.ref = "androidx-core-ktx" }
 androidx-lifecycle-viewmodel = { module = "org.jetbrains.androidx.lifecycle:lifecycle-viewmodel", version.ref = "androidx-lifecycle" }
 androidx-lifecycle-runtime-compose = { module = "org.jetbrains.androidx.lifecycle:lifecycle-runtime-compose", version.ref = "androidx-lifecycle" }
 androidx-lifecycle-viewmodel-compose = { module = "org.jetbrains.androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "androidx-lifecycle" }

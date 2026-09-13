@@ -47,6 +47,7 @@ kotlin {
         androidMain.dependencies {
             implementation(compose.uiTooling)
             implementation(libs.androidx.activity.compose)
+            implementation(libs.androidx.core.ktx)
         }
         androidUnitTest.dependencies {
             // See the `robolectric` version note in gradle/libs.versions.toml:

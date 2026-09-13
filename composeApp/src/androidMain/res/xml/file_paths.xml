@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<paths xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Sharer.android.kt writes calm-coloring-share.png directly to
+         appContext.cacheDir (its root, not a subdirectory), so path="." here
+         exposes that root via FileProvider's cache-path element. -->
+    <cache-path name="shared" path="." />
+</paths>
