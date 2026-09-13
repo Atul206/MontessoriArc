@@ -2,7 +2,7 @@ package com.calmcoloring.app.platform
 
 import android.app.Activity
 import android.content.Context
-import android.graphics.Bitmap
+import android.graphics.Paint
 import android.graphics.pdf.PdfDocument
 import android.os.Bundle
 import android.os.CancellationSignal
@@ -12,11 +12,18 @@ import android.print.PrintAttributes
 import android.print.PrintDocumentAdapter
 import android.print.PrintDocumentInfo
 import android.print.PrintManager
-import androidx.compose.ui.graphics.ImageBitmap
-import androidx.compose.ui.graphics.asAndroidBitmap
+import android.util.Log
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.asAndroidPath
+import androidx.compose.ui.graphics.toArgb
+import com.calmcoloring.app.model.Template
 import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+
+private const val TAG = "Printer"
 
 // Set once from MainActivity.onCreate before any print/share call. Task 8's
 // Sharer reads this too.
@@ -31,42 +38,91 @@ lateinit var appContext: Context
 // MainActivity.
 var currentActivity: Activity? = null
 
-actual suspend fun printArtwork(artwork: ImageBitmap, pageWidthPoints: Float, pageHeightPoints: Float) {
+// Same stroke width RegionCanvas uses for outlines, so print output matches
+// what's shown on screen.
+private const val OUTLINE_STROKE_WIDTH = 3.5f
+
+actual suspend fun printArtwork(
+    template: Template,
+    fills: Map<String, Color>,
+    unfilledColor: Color,
+    outlineColor: Color,
+    pageWidthPoints: Float,
+    pageHeightPoints: Float,
+) {
     val activity = currentActivity
-        ?: error("printArtwork called with no foreground Activity (currentActivity is null)")
+    if (activity == null) {
+        Log.e(TAG, "printArtwork called with no foreground Activity (currentActivity is null); aborting.")
+        return
+    }
 
-    val outputFile = File(appContext.cacheDir, "calm-coloring-export.pdf")
-    renderPdf(artwork, pageWidthPoints, pageHeightPoints, outputFile)
+    try {
+        val outputFile = withContext(Dispatchers.IO) {
+            val file = File(appContext.cacheDir, "calm-coloring-export.pdf")
+            renderPdf(template, fills, unfilledColor, outlineColor, pageWidthPoints, pageHeightPoints, file)
+            file
+        }
 
-    val printManager = activity.getSystemService(Context.PRINT_SERVICE) as PrintManager
-    val adapter = FilePrintDocumentAdapter(outputFile)
-    printManager.print("Calm Coloring picture", adapter, PrintAttributes.Builder().build())
+        val printManager = activity.getSystemService(Context.PRINT_SERVICE) as PrintManager
+        val adapter = FilePrintDocumentAdapter(outputFile)
+        printManager.print("Calm Coloring picture", adapter, PrintAttributes.Builder().build())
+    } catch (e: Exception) {
+        // Don't let a PDF/print-framework failure crash the app — log and
+        // give up gracefully. No polished user-facing error UI in this task.
+        Log.e(TAG, "printArtwork failed", e)
+    }
 }
 
-private fun renderPdf(artwork: ImageBitmap, pageWidthPoints: Float, pageHeightPoints: Float, outputFile: File) {
+/**
+ * Renders the template's real vector region paths (the same [Template]
+ * /[com.calmcoloring.app.model.RegionSpec] data [com.calmcoloring.app.ui.canvas.RegionCanvas]
+ * draws from) directly onto the PDF page's [android.graphics.Canvas] — a
+ * true vector draw, not a rasterized bitmap embed, so print output isn't
+ * capped by the screen's on-screen resolution (PRD §5.4/§6).
+ */
+private fun renderPdf(
+    template: Template,
+    fills: Map<String, Color>,
+    unfilledColor: Color,
+    outlineColor: Color,
+    pageWidthPoints: Float,
+    pageHeightPoints: Float,
+    outputFile: File,
+) {
     val document = PdfDocument()
     val pageInfo = PdfDocument.PageInfo.Builder(pageWidthPoints.toInt(), pageHeightPoints.toInt(), 1).create()
     val page = document.startPage(pageInfo)
-    val rawBitmap = artwork.asAndroidBitmap()
-    // graphicsLayer.toImageBitmap() captures a GPU-backed (HARDWARE config)
-    // bitmap; PdfDocument's page.canvas is a software canvas and
-    // Canvas.drawBitmap refuses to draw a hardware bitmap onto it
-    // ("Software rendering doesn't support hardware bitmaps"), so copy to a
-    // software config first.
-    val bitmap = if (rawBitmap.config == Bitmap.Config.HARDWARE) {
-        rawBitmap.copy(Bitmap.Config.ARGB_8888, false)
-    } else {
-        rawBitmap
+    val canvas = page.canvas
+
+    // Fit-within-page, centered — same "fit viewBox into available space"
+    // math RegionCanvas uses for the on-screen render.
+    val scale = minOf(pageWidthPoints / template.viewBoxWidth, pageHeightPoints / template.viewBoxHeight)
+    val dx = (pageWidthPoints - template.viewBoxWidth * scale) / 2f
+    val dy = (pageHeightPoints - template.viewBoxHeight * scale) / 2f
+
+    canvas.save()
+    canvas.translate(dx, dy)
+    canvas.scale(scale, scale)
+
+    val fillPaint = Paint().apply {
+        isAntiAlias = true
+        style = Paint.Style.FILL
+    }
+    val strokePaint = Paint().apply {
+        isAntiAlias = true
+        style = Paint.Style.STROKE
+        strokeWidth = OUTLINE_STROKE_WIDTH
+        color = outlineColor.toArgb()
     }
 
-    // Fit-within-page, centered — same "fit within bounds" approach used
-    // elsewhere for scaling the template to available space.
-    val scale = minOf(pageWidthPoints / bitmap.width, pageHeightPoints / bitmap.height)
-    val dx = (pageWidthPoints - bitmap.width * scale) / 2f
-    val dy = (pageHeightPoints - bitmap.height * scale) / 2f
-    page.canvas.translate(dx, dy)
-    page.canvas.scale(scale, scale)
-    page.canvas.drawBitmap(bitmap, 0f, 0f, null)
+    template.regions.forEach { region ->
+        val androidPath = region.path.asAndroidPath()
+        fillPaint.color = (fills[region.id] ?: unfilledColor).toArgb()
+        canvas.drawPath(androidPath, fillPaint)
+        canvas.drawPath(androidPath, strokePaint)
+    }
+
+    canvas.restore()
     document.finishPage(page)
 
     FileOutputStream(outputFile).use { document.writeTo(it) }

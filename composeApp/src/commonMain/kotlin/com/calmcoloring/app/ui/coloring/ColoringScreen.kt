@@ -54,6 +54,8 @@ fun ColoringScreen(
     val graphicsLayer = rememberGraphicsLayer()
     val scope = rememberCoroutineScope()
     val touchTarget = minTouchTargetDp()
+    val unfilledColor = MaterialTheme.colorScheme.surface
+    val outlineColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.55f)
 
     Column(modifier = modifier.fillMaxSize()) {
         Row(
@@ -71,7 +73,16 @@ fun ColoringScreen(
             Row {
                 // Share button wired in Task 8.
                 IconButton(
-                    onClick = { scope.launch { printArtwork(graphicsLayer.toImageBitmap()) } },
+                    onClick = {
+                        scope.launch {
+                            printArtwork(
+                                template = template,
+                                fills = viewModel.fills,
+                                unfilledColor = unfilledColor,
+                                outlineColor = outlineColor,
+                            )
+                        }
+                    },
                     modifier = Modifier.size(touchTarget),
                 ) {
                     Icon(Icons.Filled.Print, contentDescription = "Print or export")
@@ -91,8 +102,8 @@ fun ColoringScreen(
             RegionCanvas(
                 template = template,
                 fills = viewModel.fills,
-                unfilledColor = MaterialTheme.colorScheme.surface,
-                outlineColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.55f),
+                unfilledColor = unfilledColor,
+                outlineColor = outlineColor,
                 onRegionTapped = viewModel::onRegionTapped,
                 modifier = Modifier
                     .fillMaxSize()
