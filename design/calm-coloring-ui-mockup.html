@@ -1,0 +1,844 @@
+<!doctype html>
+<title>Calm Coloring Mockup</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700&family=Karla:wght@400;500;600;700&display=swap');
+
+  :root {
+    --bg: #f1ece2;
+    --surface: #faf6ee;
+    --surface-2: #e9e1d1;
+    --ink: #3a342b;
+    --ink-soft: #7a6f5f;
+    --ink-faint: #a89b87;
+    --line: #ddd3bf;
+
+    --sage: #8fa382;
+    --sky: #7e97a6;
+    --clay: #c98b7a;
+    --sand: #d9ae63;
+    --lilac: #a48fa8;
+    --moss: #6d8a68;
+
+    --bezel: #2c2820;
+    --bezel-edge: #453f34;
+    --shadow: rgba(58, 52, 43, 0.18);
+    --focus: #7e97a6;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #211e19;
+      --surface: #2a2721;
+      --surface-2: #37332b;
+      --ink: #ece5d8;
+      --ink-soft: #b3a893;
+      --ink-faint: #7c7360;
+      --line: #423c31;
+
+      --sage: #9db38f;
+      --sky: #8fabba;
+      --clay: #d99e8d;
+      --sand: #e2be7c;
+      --lilac: #b49fb8;
+      --moss: #83a37d;
+
+      --bezel: #17150f;
+      --bezel-edge: #35302650;
+      --shadow: rgba(0, 0, 0, 0.45);
+    }
+  }
+
+  :root[data-theme="dark"] {
+    --bg: #211e19;
+    --surface: #2a2721;
+    --surface-2: #37332b;
+    --ink: #ece5d8;
+    --ink-soft: #b3a893;
+    --ink-faint: #7c7360;
+    --line: #423c31;
+
+    --sage: #9db38f;
+    --sky: #8fabba;
+    --clay: #d99e8d;
+    --sand: #e2be7c;
+    --lilac: #b49fb8;
+    --moss: #83a37d;
+
+    --bezel: #17150f;
+    --bezel-edge: #35302650;
+    --shadow: rgba(0, 0, 0, 0.45);
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Karla', ui-sans-serif, system-ui, sans-serif;
+    margin: 0;
+    padding: 40px 24px 64px;
+  }
+
+  .page {
+    max-width: 1180px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 340px 1fr;
+    gap: 40px;
+    align-items: start;
+  }
+
+  @media (max-width: 880px) {
+    .page { grid-template-columns: 1fr; }
+  }
+
+  /* ---------- Aside: review notes ---------- */
+
+  aside {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+    position: sticky;
+    top: 40px;
+  }
+
+  @media (max-width: 880px) {
+    aside { position: static; }
+  }
+
+  .eyebrow {
+    font-family: 'Karla', sans-serif;
+    font-weight: 700;
+    font-size: 11.5px;
+    letter-spacing: 0.11em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+
+  h1.wordmark {
+    font-family: 'Baloo 2', ui-rounded, sans-serif;
+    font-weight: 700;
+    font-size: 34px;
+    margin: 6px 0 0;
+    color: var(--ink);
+    text-wrap: balance;
+  }
+
+  .lede {
+    font-size: 14.5px;
+    line-height: 1.55;
+    color: var(--ink-soft);
+    margin: 0;
+  }
+
+  .card-block {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 18px 20px;
+  }
+
+  .card-block h2 {
+    font-family: 'Karla', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin: 0 0 12px;
+  }
+
+  .axis-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+  .axis-list li { display: grid; grid-template-columns: 74px 1fr; gap: 10px; font-size: 13px; line-height: 1.45; }
+  .axis-list .axis-name { font-weight: 700; color: var(--ink); }
+  .axis-list .axis-rule { color: var(--ink-soft); }
+
+  .tier-row { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 10px; }
+  .pill {
+    font-size: 12px;
+    font-weight: 600;
+    padding: 5px 11px;
+    border-radius: 999px;
+    background: var(--surface-2);
+    color: var(--ink);
+    border: 1px solid var(--line);
+  }
+  .card-block p.small { font-size: 13px; color: var(--ink-soft); line-height: 1.5; margin: 0; }
+
+  .swatch-strip { display: flex; flex-wrap: wrap; gap: 10px; }
+  .swatch-chip { display: flex; align-items: center; gap: 7px; font-size: 12.5px; color: var(--ink-soft); }
+  .swatch-chip .dot { width: 16px; height: 16px; border-radius: 50%; border: 1px solid var(--shadow); flex: none; }
+
+  .status-note {
+    background: var(--surface-2);
+    border-radius: 16px;
+    padding: 16px 20px;
+    font-size: 13.5px;
+    line-height: 1.55;
+    color: var(--ink);
+  }
+  .status-note strong { font-family: 'Baloo 2', sans-serif; font-weight: 600; }
+
+  /* ---------- Device stage ---------- */
+
+  .stage {
+    display: flex;
+    justify-content: center;
+  }
+
+  .device {
+    width: min(100%, 420px);
+    aspect-ratio: 420 / 640;
+    background: var(--bezel);
+    border-radius: 42px;
+    padding: 14px;
+    box-shadow: 0 30px 60px -20px var(--shadow), inset 0 0 0 1px var(--bezel-edge);
+  }
+
+  .device::before {
+    content: "";
+    display: block;
+    width: 44px;
+    height: 5px;
+    border-radius: 3px;
+    background: var(--bezel-edge);
+    margin: 0 auto 10px;
+  }
+
+  .screen {
+    background: var(--bg);
+    width: 100%;
+    height: calc(100% - 15px);
+    border-radius: 26px;
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+  }
+
+  [hidden] { display: none !important; }
+
+  /* ---------- Home screen ---------- */
+
+  #home { display: flex; flex-direction: column; height: 100%; }
+
+  .home-header {
+    padding: 16px 18px 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .home-header .pill { background: var(--surface); }
+
+  .home-header .brand {
+    font-family: 'Baloo 2', sans-serif;
+    font-weight: 600;
+    font-size: 18px;
+    color: var(--ink);
+  }
+
+  .home-scroll {
+    flex: 1;
+    overflow-y: auto;
+    padding: 6px 16px 10px;
+  }
+
+  .template-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+
+  .template-card {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    padding: 12px 10px 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    font: inherit;
+    color: inherit;
+    text-align: center;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .template-card:focus-visible { outline: 2.5px solid var(--focus); outline-offset: 2px; }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .template-card { transition: transform 160ms ease, box-shadow 160ms ease; }
+    .template-card:hover { transform: translateY(-2px); box-shadow: 0 10px 18px -12px var(--shadow); }
+  }
+
+  .card-icon {
+    width: 100%;
+    aspect-ratio: 1;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+  }
+  .card-icon svg { width: 100%; height: 100%; }
+
+  .card-label { font-size: 12.5px; font-weight: 600; color: var(--ink); line-height: 1.2; }
+
+  .home-footer {
+    text-align: center;
+    font-size: 11px;
+    color: var(--ink-faint);
+    padding: 4px 16px 14px;
+    letter-spacing: 0.01em;
+  }
+
+  /* ---------- Canvas screen ---------- */
+
+  #canvas-screen { display: flex; flex-direction: column; height: 100%; }
+
+  .canvas-topbar {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    padding: 10px 12px;
+    position: relative;
+    z-index: 2;
+  }
+  .topbar-actions { display: flex; gap: 8px; justify-self: end; }
+
+  .icon-btn {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: none;
+    background: var(--surface);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    padding: 0;
+    color: var(--ink);
+  }
+  .icon-btn:focus-visible { outline: 2.5px solid var(--focus); outline-offset: 2px; }
+  .icon-btn svg { width: 20px; height: 20px; }
+
+  .canvas-title { text-align: center; display: flex; flex-direction: column; gap: 2px; }
+  .canvas-title .name { font-family: 'Baloo 2', sans-serif; font-weight: 600; font-size: 15px; }
+  .canvas-title button.reset {
+    border: none; background: none; padding: 0; font: inherit;
+    font-size: 11px; color: var(--ink-faint); text-decoration: underline;
+    text-underline-offset: 2px; cursor: pointer;
+  }
+  .canvas-title button.reset:focus-visible { outline: 2px solid var(--focus); }
+
+  .canvas-stage {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 22px;
+    position: relative;
+  }
+  .canvas-stage svg { width: 100%; height: 100%; max-height: 100%; }
+
+  .region {
+    fill: var(--surface);
+    stroke: var(--ink-soft);
+    stroke-width: 7;
+    stroke-linejoin: round;
+    stroke-linecap: round;
+    cursor: pointer;
+    transition: fill 620ms cubic-bezier(0.22, 0.61, 0.36, 1);
+  }
+  .region:hover { stroke: var(--ink); }
+  .region.region-bg { stroke: var(--line); stroke-width: 3; }
+  .region.region-bg:hover { stroke: var(--line); }
+  .deco { fill: var(--ink-soft); stroke: none; pointer-events: none; }
+  .deco-line { fill: none; stroke: var(--ink-soft); stroke-width: 5; stroke-linecap: round; pointer-events: none; }
+
+  .toast {
+    position: absolute;
+    right: 14px;
+    top: 4px;
+    max-width: 190px;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 9px 12px;
+    font-size: 11.5px;
+    line-height: 1.4;
+    color: var(--ink);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 200ms ease;
+    box-shadow: 0 8px 18px -10px var(--shadow);
+  }
+  .toast.show { opacity: 1; }
+
+  .palette-bar {
+    display: flex;
+    justify-content: center;
+    gap: 14px;
+    padding: 14px 16px 18px;
+    border-top: 1px solid var(--line);
+    background: var(--surface);
+  }
+
+  .swatch {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    position: relative;
+  }
+  .swatch:focus-visible { outline: 2.5px solid var(--focus); outline-offset: 3px; }
+  .swatch[aria-pressed="true"]::after {
+    content: "";
+    position: absolute;
+    inset: -5px;
+    border-radius: 50%;
+    border: 2.5px solid var(--ink);
+  }
+
+  /* ---------- Share sheet ---------- */
+
+  .share-sheet {
+    position: absolute;
+    inset: 0;
+    z-index: 5;
+    background: var(--bg);
+    display: flex;
+    flex-direction: column;
+    padding: 14px 18px 18px;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(14px);
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .share-sheet { transition: opacity 220ms ease, transform 220ms ease; }
+  }
+  .share-sheet.show { opacity: 1; pointer-events: auto; transform: translateY(0); }
+
+  .share-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 12px;
+  }
+  .share-head h3 { font-family: 'Baloo 2', sans-serif; font-weight: 600; font-size: 16px; margin: 0; }
+
+  .share-preview {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    padding: 14px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 14px;
+  }
+  .share-preview-art { width: 128px; }
+  .share-preview-art svg { width: 100%; display: block; }
+  .share-caption { font-family: 'Baloo 2', sans-serif; font-weight: 600; font-size: 13.5px; color: var(--ink); text-align: center; }
+  .share-watermark { font-size: 10px; color: var(--ink-faint); letter-spacing: 0.04em; }
+
+  .share-field label {
+    font-size: 11px; font-weight: 700; color: var(--ink-soft);
+    text-transform: uppercase; letter-spacing: 0.06em;
+  }
+  .share-field input {
+    width: 100%; margin-top: 6px; padding: 11px 13px; border-radius: 12px;
+    border: 1px solid var(--line); background: var(--surface); color: var(--ink);
+    font: inherit; font-size: 14px;
+  }
+  .share-field input:focus-visible { outline: 2.5px solid var(--focus); outline-offset: 1px; }
+
+  .share-targets { display: flex; gap: 8px; margin-top: 16px; }
+  .share-target {
+    flex: 1; display: flex; flex-direction: column; align-items: center; gap: 6px;
+    background: var(--surface); border: 1px solid var(--line); border-radius: 14px;
+    padding: 11px 4px; cursor: pointer; font: inherit; color: var(--ink);
+  }
+  .share-target svg { width: 20px; height: 20px; }
+  .share-target span { font-size: 10.5px; font-weight: 600; }
+  .share-target:focus-visible { outline: 2.5px solid var(--focus); outline-offset: 2px; }
+
+  .share-status {
+    font-size: 11.5px; color: var(--ink-soft); text-align: center;
+    min-height: 15px; margin: 10px 0 0; opacity: 0; transition: opacity 200ms ease;
+  }
+  .share-status.show { opacity: 1; }
+
+  .share-privacy {
+    margin-top: auto; font-size: 11px; color: var(--ink-faint);
+    text-align: center; line-height: 1.4; padding-top: 10px;
+  }
+</style>
+
+<div class="page">
+  <aside>
+    <div>
+      <p class="eyebrow">PRD → UI/UX mockup · for review</p>
+      <h1 class="wordmark">Calm Coloring</h1>
+      <p class="lede" style="margin-top:8px;">
+        A working click-through of the two v1 screens — template gallery and the tap-to-fill
+        canvas — built to the calm-design constraints in §5 of the PRD. Tap a template, then
+        tap a shape to watch the fill settle in. This stands in for the visual design step;
+        nothing here is final until it's reviewed.
+      </p>
+    </div>
+
+    <div class="card-block">
+      <h2>Calm-design rules applied</h2>
+      <ul class="axis-list">
+        <li><span class="axis-name">Sound</span><span class="axis-rule">None. No fill chime, no ambient music.</span></li>
+        <li><span class="axis-name">Animation</span><span class="axis-rule">Only the slow color-settle on tap — no other motion anywhere.</span></li>
+        <li><span class="axis-name">Reward</span><span class="axis-rule">No confetti, badges, or "you did it!" popups.</span></li>
+        <li><span class="axis-name">Brightness</span><span class="axis-rule">One small muted palette, reused for chrome and fill alike.</span></li>
+      </ul>
+    </div>
+
+    <div class="card-block">
+      <h2>Age tier · 3–5 years</h2>
+      <div class="tier-row">
+        <span class="pill">2cm min. touch target</span>
+        <span class="pill">6 colors shown</span>
+        <span class="pill">Moderate region count</span>
+      </div>
+      <p class="small">The only tier scoped for v1 (§5.3, §9). Card and swatch sizing below is
+      illustrative of the target proportions at real device scale.</p>
+    </div>
+
+    <div class="card-block">
+      <h2>System palette</h2>
+      <div class="swatch-strip">
+        <span class="swatch-chip"><span class="dot" style="background:var(--sage)"></span>Sage</span>
+        <span class="swatch-chip"><span class="dot" style="background:var(--sky)"></span>Sky</span>
+        <span class="swatch-chip"><span class="dot" style="background:var(--clay)"></span>Clay</span>
+        <span class="swatch-chip"><span class="dot" style="background:var(--sand)"></span>Sand</span>
+        <span class="swatch-chip"><span class="dot" style="background:var(--lilac)"></span>Lilac</span>
+        <span class="swatch-chip"><span class="dot" style="background:var(--moss)"></span>Moss</span>
+      </div>
+      <p class="small" style="margin-top:10px;">Six muted swatches total, per §5.2 — the same set
+      tints the gallery cards and fills the coloring regions. No separate "bright" child palette.</p>
+    </div>
+
+    <div class="status-note">
+      <strong>8 of the 15 launch templates</strong> are built out here as real, tappable scenes so
+      the interaction and palette can be judged properly; the remaining launch templates follow the
+      same construction once art direction is signed off. Print exports from the same vector paths
+      shown on screen (§5.4) — the print button here is a placeholder for that flow.
+    </div>
+
+    <div class="status-note">
+      <strong>Share is new</strong> — a parent-facing action next to Print that watermarks the
+      finished piece with "Painted by {name}" and hands it to WhatsApp, Instagram, or the system
+      share sheet ("More"). The name is typed fresh each time here and never leaves the device;
+      open question for planning — should this sit behind a simple parental gate, consistent with
+      how App/Play Store kids policies usually treat any outbound share from a children's app.
+    </div>
+
+    <p class="lede">Reference point: Pok Pok's calm, Montessori-inspired visual language — no
+    overstimulating palette, no menu chrome — informed the restraint here without borrowing its
+    assets.</p>
+  </aside>
+
+  <div class="stage">
+    <div class="device">
+      <div class="screen">
+
+        <div id="home">
+          <div class="home-header">
+            <span class="pill">Age 3–5</span>
+            <span class="brand">Calm Coloring</span>
+            <span style="width:64px;"></span>
+          </div>
+          <div class="home-scroll">
+            <div class="template-grid" id="template-grid"></div>
+          </div>
+          <p class="home-footer">No sound · no ads · no accounts — just tap and color.</p>
+        </div>
+
+        <div id="canvas-screen" hidden>
+          <div class="canvas-topbar">
+            <button class="icon-btn" id="back-btn" aria-label="Back to templates" style="justify-self:start;">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+            </button>
+            <div class="canvas-title">
+              <span class="name" id="template-name">Template</span>
+              <button class="reset" id="reset-btn" type="button">Start over</button>
+            </div>
+            <div class="topbar-actions">
+              <button class="icon-btn" id="print-btn" aria-label="Print or export">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9V3h12v6"/><path d="M6 18H4a1 1 0 01-1-1v-6a1 1 0 011-1h16a1 1 0 011 1v6a1 1 0 01-1 1h-2"/><path d="M6 14h12v7H6z"/></svg>
+              </button>
+              <button class="icon-btn" id="share-btn" aria-label="Share this picture">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="M7 8l5-5 5 5"/><path d="M5 14v5a2 2 0 002 2h10a2 2 0 002-2v-5"/></svg>
+              </button>
+            </div>
+          </div>
+
+          <div class="canvas-stage" id="canvas-stage">
+            <div class="toast" id="print-toast">Exports a print-ready PDF from this same vector artwork — no re-render, no quality loss.</div>
+          </div>
+
+          <div class="palette-bar" id="palette-bar"></div>
+
+          <div class="share-sheet" id="share-sheet">
+            <div class="share-head">
+              <h3>Share this picture</h3>
+              <button class="icon-btn" id="share-close" aria-label="Close share sheet">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+              </button>
+            </div>
+
+            <div class="share-preview">
+              <div class="share-preview-art" id="share-preview-art"></div>
+              <div class="share-caption" id="share-caption">A little artist's painting</div>
+              <div class="share-watermark">Made with Calm Coloring</div>
+            </div>
+
+            <div class="share-field">
+              <label for="artist-name">Artist's name</label>
+              <input id="artist-name" type="text" placeholder="e.g. Maya" autocomplete="off" maxlength="24" />
+            </div>
+
+            <div class="share-targets">
+              <button class="share-target" type="button" data-target="WhatsApp">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"><path d="M4 12a8 8 0 1114.5 4.6L20 20l-3.6-1.2A8 8 0 014 12z"/></svg>
+                <span>WhatsApp</span>
+              </button>
+              <button class="share-target" type="button" data-target="Instagram">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="4" width="16" height="16" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="16.3" cy="7.7" r="0.7" fill="currentColor" stroke="none"/></svg>
+                <span>Instagram</span>
+              </button>
+              <button class="share-target" type="button" data-target="More">
+                <svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><circle cx="5" cy="12" r="1.9"/><circle cx="12" cy="12" r="1.9"/><circle cx="19" cy="12" r="1.9"/></svg>
+                <span>More</span>
+              </button>
+            </div>
+
+            <p class="share-status" id="share-status" aria-live="polite"></p>
+            <p class="share-privacy">Sharing sends only this picture — nothing else ever leaves the device.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const COLORS = [
+    { name: 'Sage', var: '--sage' },
+    { name: 'Sky', var: '--sky' },
+    { name: 'Clay', var: '--clay' },
+    { name: 'Sand', var: '--sand' },
+    { name: 'Lilac', var: '--lilac' },
+    { name: 'Moss', var: '--moss' },
+  ];
+
+  const TEMPLATES = {
+    sun: {
+      name: 'Sunny Day',
+      accent: '--sand',
+      svg: `<svg viewBox="0 0 320 320" xmlns="http://www.w3.org/2000/svg">
+        <rect class="region region-bg" data-region="background" x="1.5" y="1.5" width="317" height="317" rx="18"/>
+        <path class="region" data-region="hill" d="M0,320 L0,235 Q160,175 320,235 L320,320 Z"/>
+        <path class="region" data-region="cloud" d="M55,150 a30,30 0 0 1 58,-10 a26,26 0 0 1 44,8 a24,24 0 0 1 -6,46 h-80 a26,26 0 0 1 -16,-44 Z"/>
+        <circle class="region" data-region="sun" cx="228" cy="92" r="48"/>
+      </svg>`
+    },
+    house: {
+      name: 'Little House',
+      accent: '--clay',
+      svg: `<svg viewBox="0 0 320 320" xmlns="http://www.w3.org/2000/svg">
+        <rect class="region region-bg" data-region="background" x="1.5" y="1.5" width="317" height="317" rx="18"/>
+        <rect class="region" data-region="wall" x="60" y="150" width="200" height="130" rx="6"/>
+        <path class="region" data-region="roof" d="M40,152 L160,58 L280,152 Z"/>
+        <rect class="region" data-region="door" x="140" y="212" width="42" height="68" rx="6"/>
+        <circle class="region" data-region="window" cx="212" cy="196" r="24"/>
+      </svg>`
+    },
+    tree: {
+      name: 'Apple Tree',
+      accent: '--moss',
+      svg: `<svg viewBox="0 0 320 320" xmlns="http://www.w3.org/2000/svg">
+        <rect class="region region-bg" data-region="background" x="1.5" y="1.5" width="317" height="317" rx="18"/>
+        <rect class="region" data-region="trunk" x="140" y="205" width="40" height="100" rx="10"/>
+        <circle class="region" data-region="canopy" cx="160" cy="140" r="95"/>
+        <circle class="region" data-region="apple1" cx="118" cy="128" r="15"/>
+        <circle class="region" data-region="apple2" cx="204" cy="162" r="15"/>
+      </svg>`
+    },
+    cat: {
+      name: 'Sleepy Cat',
+      accent: '--lilac',
+      svg: `<svg viewBox="0 0 320 320" xmlns="http://www.w3.org/2000/svg">
+        <rect class="region region-bg" data-region="background" x="1.5" y="1.5" width="317" height="317" rx="18"/>
+        <path class="region" data-region="tail" d="M235,255 C282,244 302,192 270,152 C259,141 244,150 249,171 C255,202 236,222 219,236 Z"/>
+        <ellipse class="region" data-region="body" cx="150" cy="222" rx="92" ry="62"/>
+        <path class="region" data-region="earL" d="M68,112 L58,58 L102,96 Z"/>
+        <path class="region" data-region="earR" d="M150,96 L167,48 L192,100 Z"/>
+        <circle class="region" data-region="head" cx="112" cy="140" r="56"/>
+        <circle class="deco" cx="96" cy="136" r="4.5"/>
+        <circle class="deco" cx="128" cy="136" r="4.5"/>
+        <path class="deco-line" d="M60,150 L92,146 M60,164 L92,156 M164,146 L132,150 M164,160 L132,156"/>
+      </svg>`
+    },
+    fish: {
+      name: 'Little Fish',
+      accent: '--sky',
+      svg: `<svg viewBox="0 0 320 320" xmlns="http://www.w3.org/2000/svg">
+        <rect class="region region-bg" data-region="background" x="1.5" y="1.5" width="317" height="317" rx="18"/>
+        <path class="region" data-region="tail" d="M40,168 L104,124 L104,212 Z"/>
+        <path class="region" data-region="fin" d="M178,108 L212,58 L232,116 Z"/>
+        <ellipse class="region" data-region="body" cx="196" cy="168" rx="92" ry="56"/>
+        <circle class="deco" cx="248" cy="152" r="6"/>
+      </svg>`
+    },
+    flower: {
+      name: 'Garden Flower',
+      accent: '--sage',
+      svg: `<svg viewBox="0 0 320 320" xmlns="http://www.w3.org/2000/svg">
+        <rect class="region region-bg" data-region="background" x="1.5" y="1.5" width="317" height="317" rx="18"/>
+        <rect class="region" data-region="stem" x="150" y="195" width="12" height="108" rx="6"/>
+        <ellipse class="region" data-region="petal1" cx="160" cy="92" rx="32" ry="56"/>
+        <ellipse class="region" data-region="petal2" cx="160" cy="92" rx="32" ry="56" transform="rotate(72,160,160)"/>
+        <ellipse class="region" data-region="petal3" cx="160" cy="92" rx="32" ry="56" transform="rotate(144,160,160)"/>
+        <ellipse class="region" data-region="petal4" cx="160" cy="92" rx="32" ry="56" transform="rotate(216,160,160)"/>
+        <ellipse class="region" data-region="petal5" cx="160" cy="92" rx="32" ry="56" transform="rotate(288,160,160)"/>
+        <circle class="region" data-region="center" cx="160" cy="160" r="30"/>
+      </svg>`
+    },
+    boat: {
+      name: 'Sailboat',
+      accent: '--clay',
+      svg: `<svg viewBox="0 0 320 320" xmlns="http://www.w3.org/2000/svg">
+        <rect class="region region-bg" data-region="background" x="1.5" y="1.5" width="317" height="317" rx="18"/>
+        <path class="region" data-region="hull" d="M56,222 L264,222 L232,272 L88,272 Z"/>
+        <path class="region" data-region="sailBig" d="M170,62 L170,212 L100,212 Z"/>
+        <path class="region" data-region="sailSmall" d="M180,92 L180,212 L230,212 Z"/>
+        <path class="region" data-region="flag" d="M170,50 L170,72 L198,61 Z"/>
+      </svg>`
+    },
+    balloon: {
+      name: 'Balloon Ride',
+      accent: '--sand',
+      svg: `<svg viewBox="0 0 320 320" xmlns="http://www.w3.org/2000/svg">
+        <rect class="region region-bg" data-region="background" x="1.5" y="1.5" width="317" height="317" rx="18"/>
+        <path class="deco-line" d="M147,232 L134,262 M173,232 L186,262"/>
+        <rect class="region" data-region="basket" x="130" y="260" width="60" height="42" rx="8"/>
+        <path class="region" data-region="knot" d="M144,210 L176,210 L160,231 Z"/>
+        <ellipse class="region" data-region="balloon" cx="160" cy="128" rx="72" ry="86"/>
+      </svg>`
+    },
+  };
+
+  const grid = document.getElementById('template-grid');
+  Object.entries(TEMPLATES).forEach(([id, tpl]) => {
+    const btn = document.createElement('button');
+    btn.className = 'template-card';
+    btn.type = 'button';
+    btn.addEventListener('click', () => openTemplate(id));
+    btn.innerHTML = `
+      <span class="card-icon" style="background:color-mix(in srgb, var(${tpl.accent}) 20%, var(--surface))">${tpl.svg}</span>
+      <span class="card-label">${tpl.name}</span>
+    `;
+    grid.appendChild(btn);
+  });
+
+  const paletteBar = document.getElementById('palette-bar');
+  let selectedColor = COLORS[0].var;
+  COLORS.forEach((c, i) => {
+    const b = document.createElement('button');
+    b.className = 'swatch';
+    b.style.background = `var(${c.var})`;
+    b.setAttribute('aria-label', c.name);
+    b.setAttribute('aria-pressed', i === 0 ? 'true' : 'false');
+    b.addEventListener('click', () => {
+      selectedColor = c.var;
+      paletteBar.querySelectorAll('.swatch').forEach(s => s.setAttribute('aria-pressed', 'false'));
+      b.setAttribute('aria-pressed', 'true');
+    });
+    paletteBar.appendChild(b);
+  });
+
+  const homeScreen = document.getElementById('home');
+  const canvasScreen = document.getElementById('canvas-screen');
+  const canvasStage = document.getElementById('canvas-stage');
+  const templateName = document.getElementById('template-name');
+  const printToast = document.getElementById('print-toast');
+  let currentId = null;
+
+  function openTemplate(id) {
+    currentId = id;
+    const tpl = TEMPLATES[id];
+    templateName.textContent = tpl.name;
+    canvasStage.innerHTML = tpl.svg;
+    canvasStage.appendChild(printToast);
+    canvasStage.querySelectorAll('.region').forEach(el => {
+      el.addEventListener('click', () => {
+        el.style.fill = `var(${selectedColor})`;
+      });
+    });
+    homeScreen.hidden = true;
+    canvasScreen.hidden = false;
+  }
+
+  document.getElementById('back-btn').addEventListener('click', () => {
+    canvasScreen.hidden = true;
+    homeScreen.hidden = false;
+    document.getElementById('share-sheet').classList.remove('show');
+  });
+
+  document.getElementById('reset-btn').addEventListener('click', () => {
+    if (!currentId) return;
+    openTemplate(currentId);
+  });
+
+  let toastTimer;
+  document.getElementById('print-btn').addEventListener('click', () => {
+    printToast.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => printToast.classList.remove('show'), 3500);
+  });
+
+  const shareSheet = document.getElementById('share-sheet');
+  const sharePreviewArt = document.getElementById('share-preview-art');
+  const shareCaption = document.getElementById('share-caption');
+  const artistNameInput = document.getElementById('artist-name');
+  const shareStatus = document.getElementById('share-status');
+
+  function updateCaption() {
+    const name = artistNameInput.value.trim();
+    shareCaption.textContent = name ? `Painted by ${name}` : "A little artist's painting";
+  }
+  artistNameInput.addEventListener('input', updateCaption);
+
+  document.getElementById('share-btn').addEventListener('click', () => {
+    const art = canvasStage.querySelector('svg');
+    sharePreviewArt.innerHTML = art ? art.outerHTML : '';
+    updateCaption();
+    shareSheet.classList.add('show');
+  });
+
+  document.getElementById('share-close').addEventListener('click', () => {
+    shareSheet.classList.remove('show');
+  });
+
+  let shareStatusTimer;
+  document.querySelectorAll('.share-target').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      shareStatus.textContent = `Opens ${btn.dataset.target} with this picture attached.`;
+      shareStatus.classList.add('show');
+      clearTimeout(shareStatusTimer);
+      shareStatusTimer = setTimeout(() => shareStatus.classList.remove('show'), 3000);
+    });
+  });
+</script>
