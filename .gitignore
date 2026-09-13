@@ -1,1 +1,21 @@
 .worktrees/
+
+# Gradle / Kotlin
+.gradle/
+build/
+local.properties
+*.hprof
+
+# IDE
+.idea/
+.kotlin/
+*.iml
+
+# macOS
+.DS_Store
+
+# Xcode
+iosApp/**/xcuserdata/
+iosApp/**/*.xcworkspace/xcuserdata/
+iosApp/**/DerivedData/
+iosApp/**/.build/
