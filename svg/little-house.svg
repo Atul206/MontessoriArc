@@ -1,0 +1,7 @@
+<svg viewBox="0 0 320 320" xmlns="http://www.w3.org/2000/svg">
+  <rect id="background" x="1.5" y="1.5" width="317" height="317" rx="18"/>
+  <rect id="wall" x="60" y="150" width="200" height="130" rx="6"/>
+  <path id="roof" d="M40,152 L160,58 L280,152 Z"/>
+  <rect id="door" x="140" y="212" width="42" height="68" rx="6"/>
+  <circle id="window" cx="212" cy="196" r="24"/>
+</svg>

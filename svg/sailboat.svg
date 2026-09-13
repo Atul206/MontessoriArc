@@ -1,0 +1,7 @@
+<svg viewBox="0 0 320 320" xmlns="http://www.w3.org/2000/svg">
+  <rect id="background" x="1.5" y="1.5" width="317" height="317" rx="18"/>
+  <path id="hull" d="M56,222 L264,222 L232,272 L88,272 Z"/>
+  <path id="sailBig" d="M170,62 L170,212 L100,212 Z"/>
+  <path id="sailSmall" d="M180,92 L180,212 L230,212 Z"/>
+  <path id="flag" d="M170,50 L170,72 L198,61 Z"/>
+</svg>

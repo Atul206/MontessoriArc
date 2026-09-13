@@ -1,0 +1,10 @@
+<svg viewBox="0 0 320 320" xmlns="http://www.w3.org/2000/svg">
+  <rect id="background" x="1.5" y="1.5" width="317" height="317" rx="18"/>
+  <rect id="stem" x="150" y="195" width="12" height="108" rx="6"/>
+  <ellipse id="petal1" cx="160" cy="92" rx="32" ry="56"/>
+  <ellipse id="petal2" cx="160" cy="92" rx="32" ry="56" transform="rotate(72,160,160)"/>
+  <ellipse id="petal3" cx="160" cy="92" rx="32" ry="56" transform="rotate(144,160,160)"/>
+  <ellipse id="petal4" cx="160" cy="92" rx="32" ry="56" transform="rotate(216,160,160)"/>
+  <ellipse id="petal5" cx="160" cy="92" rx="32" ry="56" transform="rotate(288,160,160)"/>
+  <circle id="center" cx="160" cy="160" r="30"/>
+</svg>

@@ -1,0 +1,8 @@
+<svg viewBox="0 0 320 320" xmlns="http://www.w3.org/2000/svg">
+  <rect id="background" x="1.5" y="1.5" width="317" height="317" rx="18"/>
+  <path id="tail" d="M235,255 C282,244 302,192 270,152 C259,141 244,150 249,171 C255,202 236,222 219,236 Z"/>
+  <ellipse id="body" cx="150" cy="222" rx="92" ry="62"/>
+  <path id="earL" d="M68,112 L58,58 L102,96 Z"/>
+  <path id="earR" d="M150,96 L167,48 L192,100 Z"/>
+  <circle id="head" cx="112" cy="140" r="56"/>
+</svg>

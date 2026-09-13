@@ -46,7 +46,22 @@ kotlin {
             implementation(compose.uiTooling)
             implementation(libs.androidx.activity.compose)
         }
+        androidUnitTest.dependencies {
+            // See the `robolectric` version note in gradle/libs.versions.toml:
+            // TemplateCatalogTest exercises real androidx.compose.ui.graphics.Path
+            // geometry, which the plain android.jar test stub can't provide.
+            implementation(libs.robolectric)
+        }
     }
+}
+
+tasks.withType<Test>().configureEach {
+    // Robolectric's default (LEGACY) graphics shadows leave PathMeasure.length
+    // at 0 for any path — verified directly. NATIVE mode runs the real Android
+    // graphics engine on the host JVM instead, which TemplateCatalogTest needs
+    // for genuine hit-polygon sampling. See the `robolectric` note in
+    // gradle/libs.versions.toml.
+    systemProperty("robolectric.graphicsMode", "NATIVE")
 }
 
 android {
