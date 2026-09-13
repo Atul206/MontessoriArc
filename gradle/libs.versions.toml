@@ -4,17 +4,28 @@ compose-multiplatform = "1.10.3"
 agp = "9.4.0"
 androidx-activityCompose = "1.13.0"
 androidx-lifecycle = "2.9.4"
-# androidx.navigation3 is still Android-only (aar) upstream as of this writing — see report Concerns.
+# JetBrains' Compose-Multiplatform-compatible fork of Navigation 3, per
+# https://kotlinlang.org/docs/multiplatform/compose-navigation-3.html — publishes real
+# android/iosArm64/iosSimulatorArm64/iosX64/desktop/js/wasmJs targets under this group.
+# (Google's own androidx.navigation3:navigation3-* is Android-only/aar; do not use that
+# group here.) Only navigation3-ui needs to be declared directly: navigation3-common is
+# pulled in transitively, and there is no separate navigation3-runtime artifact in this
+# group (unlike Google's split). 1.1.1 is the latest true stable (1.2.0-beta01 is beta).
+# KNOWN GAP for Task 5: this artifact's iOS klibs (1.1.1 and 1.1.0 both checked) were built
+# with Kotlin 2.3.20's compiler ABI, which our current kotlin=2.2.0 (pinned to match
+# compose-multiplatform 1.10.3's own floor) cannot read — compileKotlinIosSimulatorArm64
+# fails with "KLIB ... incompatible ABI version '2.3.0'" when this is on iosMain's
+# classpath. Android resolves and compiles fine today. Using this on iOS will need the
+# project's kotlin/compose-multiplatform versions bumped together first.
 # Pinned here (not yet consumed by any module) so Task 5 has a verified-resolvable coordinate to start from.
-androidx-navigation3 = "1.1.7"
+androidx-navigation3-ui = "1.1.1"
 
 [libraries]
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activityCompose" }
 androidx-lifecycle-viewmodel = { module = "org.jetbrains.androidx.lifecycle:lifecycle-viewmodel", version.ref = "androidx-lifecycle" }
 androidx-lifecycle-runtime-compose = { module = "org.jetbrains.androidx.lifecycle:lifecycle-runtime-compose", version.ref = "androidx-lifecycle" }
 androidx-lifecycle-viewmodel-compose = { module = "org.jetbrains.androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "androidx-lifecycle" }
-androidx-navigation3-runtime = { module = "androidx.navigation3:navigation3-runtime", version.ref = "androidx-navigation3" }
-androidx-navigation3-ui = { module = "androidx.navigation3:navigation3-ui", version.ref = "androidx-navigation3" }
+androidx-navigation3-ui = { module = "org.jetbrains.androidx.navigation3:navigation3-ui", version.ref = "androidx-navigation3-ui" }
 
 [plugins]
 kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
