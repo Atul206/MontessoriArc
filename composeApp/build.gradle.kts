@@ -55,7 +55,29 @@ kotlin {
             // geometry, which the plain android.jar test stub can't provide.
             implementation(libs.robolectric)
         }
+        androidInstrumentedTest.dependencies {
+            // Task 9: the one Compose UI test that exercises real layout +
+            // gesture dispatch on a connected device/emulator (everything
+            // else is covered by commonTest).
+            implementation(libs.androidx.compose.ui.test.junit4)
+            implementation(libs.androidx.test.runner)
+            implementation(libs.androidx.test.junit)
+        }
     }
+}
+
+
+// ui-test-manifest provides the ComponentActivity that createComposeRule
+// hosts test content in. It must be merged into the APP-under-test's own
+// debug manifest (not the androidInstrumentedTest APK's manifest) or the
+// self-instrumenting test launches its host activity in the wrong process
+// ("com.calmcoloring.app.test" instead of "com.calmcoloring.app") and
+// crashes before the test body runs. `androidDebugImplementation` is the
+// KGP/AGP-generated configuration for exactly that (the android target's
+// debug compilation) — added post-evaluate since AGP only creates it once
+// the android {} block and variants are configured.
+afterEvaluate {
+    dependencies.add("androidDebugImplementation", libs.androidx.compose.ui.test.manifest.get())
 }
 
 tasks.withType<Test>().configureEach {
@@ -77,6 +99,7 @@ android {
         targetSdk = 37
         versionCode = 1
         versionName = "1.0"
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
     compileOptions {
@@ -86,7 +109,11 @@ android {
 
     buildTypes {
         getByName("release") {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro",
+            )
         }
     }
 }

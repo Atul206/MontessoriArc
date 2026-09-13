@@ -36,7 +36,12 @@ fun GalleryScreen(
         )
         LazyVerticalGrid(
             columns = GridCells.Fixed(2),
-            contentPadding = PaddingValues(16.dp),
+            // Merge the base 16.dp content padding with safeDrawing insets so
+            // the first/last grid row never sits under the status/navigation
+            // bars in edge-to-edge mode (android-skills:edge-to-edge, Lists).
+            contentPadding = WindowInsets.safeDrawing
+                .add(WindowInsets(left = 16.dp, top = 16.dp, right = 16.dp, bottom = 16.dp))
+                .asPaddingValues(),
             horizontalArrangement = Arrangement.spacedBy(12.dp),
             verticalArrangement = Arrangement.spacedBy(12.dp),
             modifier = Modifier.weight(1f),

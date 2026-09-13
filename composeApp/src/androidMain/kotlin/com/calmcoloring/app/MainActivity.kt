@@ -3,11 +3,13 @@ package com.calmcoloring.app
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.enableEdgeToEdge
 import com.calmcoloring.app.platform.appContext
 import com.calmcoloring.app.platform.currentActivity
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
+        enableEdgeToEdge()
         super.onCreate(savedInstanceState)
         // Assigned here (ahead of Task 9's MainActivity work) so Task 6's print
         // flow — and Task 8's share flow — have a real Context to use; this

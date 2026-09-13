@@ -57,7 +57,10 @@ fun ColoringScreen(
     val unfilledColor = MaterialTheme.colorScheme.surface
     val outlineColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.55f)
 
-    Column(modifier = modifier.fillMaxSize()) {
+    // safeDrawingPadding keeps the topbar's back/print/share icons and the
+    // palette swatches clear of the status/navigation bars in edge-to-edge
+    // mode (android-skills:edge-to-edge).
+    Column(modifier = modifier.fillMaxSize().safeDrawingPadding()) {
         Row(
             modifier = Modifier.fillMaxWidth().padding(8.dp),
             horizontalArrangement = Arrangement.SpaceBetween,
