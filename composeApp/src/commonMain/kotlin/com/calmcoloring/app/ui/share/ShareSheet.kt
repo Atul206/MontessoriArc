@@ -11,6 +11,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
@@ -54,7 +56,16 @@ fun ShareSheet(artwork: ImageBitmap, onDismiss: () -> Unit) {
     val watermarked = remember(artwork, name) { composeWatermarkedBitmap(artwork, captionFor(name)) }
 
     ModalBottomSheet(onDismissRequest = onDismiss) {
-        Column(modifier = Modifier.padding(18.dp)) {
+        // verticalScroll + imePadding on this outer, scrollable container
+        // (not just the text field below) lets the whole sheet reflow and
+        // scroll the name field into view above the on-screen keyboard,
+        // rather than the field being pushed off-screen behind it.
+        Column(
+            modifier = Modifier
+                .verticalScroll(rememberScrollState())
+                .imePadding()
+                .padding(18.dp),
+        ) {
             Text("Share this picture", style = MaterialTheme.typography.titleMedium)
             Spacer(Modifier.height(12.dp))
 
@@ -75,7 +86,7 @@ fun ShareSheet(artwork: ImageBitmap, onDismiss: () -> Unit) {
                 label = { Text("Artist's name") },
                 placeholder = { Text("e.g. Maya") },
                 singleLine = true,
-                modifier = Modifier.fillMaxWidth().imePadding(),
+                modifier = Modifier.fillMaxWidth(),
             )
 
             Spacer(Modifier.height(16.dp))
