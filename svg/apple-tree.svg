@@ -1,0 +1,7 @@
+<svg viewBox="0 0 320 320" xmlns="http://www.w3.org/2000/svg">
+  <rect id="background" x="1.5" y="1.5" width="317" height="317" rx="18"/>
+  <rect id="trunk" x="140" y="205" width="40" height="100" rx="10"/>
+  <circle id="canopy" cx="160" cy="140" r="95"/>
+  <circle id="apple1" cx="118" cy="128" r="15"/>
+  <circle id="apple2" cx="204" cy="162" r="15"/>
+</svg>

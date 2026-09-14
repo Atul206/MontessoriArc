@@ -1,0 +1,6 @@
+<svg viewBox="0 0 320 320" xmlns="http://www.w3.org/2000/svg">
+  <rect id="background" x="1.5" y="1.5" width="317" height="317" rx="18"/>
+  <rect id="basket" x="130" y="260" width="60" height="42" rx="8"/>
+  <path id="knot" d="M144,210 L176,210 L160,231 Z"/>
+  <ellipse id="balloon" cx="160" cy="128" rx="72" ry="86"/>
+</svg>
