@@ -19,3 +19,4 @@ iosApp/**/xcuserdata/
 iosApp/**/*.xcworkspace/xcuserdata/
 iosApp/**/DerivedData/
 iosApp/**/.build/
+__pycache__/

@@ -5,8 +5,8 @@ import kotlin.test.assertEquals
 
 class PaletteTest {
     @Test
-    fun swatchPalette_hasExactlySixColors() {
-        assertEquals(6, CalmPalette.swatches.size)
+    fun swatchPalette_hasExactlyTwelveColors() {
+        assertEquals(12, CalmPalette.swatches.size)
     }
 
     @Test

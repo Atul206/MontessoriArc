@@ -25,6 +25,16 @@ object CalmPalette {
     val LilacLight = Color(0xFFA48FA8)
     val MossLight = Color(0xFF6D8A68)
 
+    // System palette — light, added later to give the coloring palette more
+    // variety once it became scrollable (see PaletteSwatches in
+    // ColoringScreen.kt) — same muted/desaturated character as the set above.
+    val BlushLight = Color(0xFFD9A0A0)
+    val ButterLight = Color(0xFFE6D18A)
+    val TealLight = Color(0xFF7FA69C)
+    val PlumLight = Color(0xFF9B7BA0)
+    val CoralLight = Color(0xFFE0906B)
+    val StoneLight = Color(0xFFA6A296)
+
     // System palette — dark
     val SageDark = Color(0xFF9DB38F)
     val SkyDark = Color(0xFF8FABBA)
@@ -33,7 +43,25 @@ object CalmPalette {
     val LilacDark = Color(0xFFB49FB8)
     val MossDark = Color(0xFF83A37D)
 
-    val swatches: List<Color> = listOf(SageLight, SkyLight, ClayLight, SandLight, LilacLight, MossLight)
+    // System palette — dark, matching the *Light additions above.
+    val BlushDark = Color(0xFFE6B4B4)
+    val ButterDark = Color(0xFFF0DE9E)
+    val TealDark = Color(0xFF93BAB0)
+    val PlumDark = Color(0xFFAF8FB4)
+    val CoralDark = Color(0xFFEBA482)
+    val StoneDark = Color(0xFFBAB6A8)
+
+    val swatches: List<Color> = listOf(
+        SageLight, SkyLight, ClayLight, SandLight, LilacLight, MossLight,
+        BlushLight, ButterLight, TealLight, PlumLight, CoralLight, StoneLight,
+    )
     fun swatchesFor(darkTheme: Boolean): List<Color> =
-        if (darkTheme) listOf(SageDark, SkyDark, ClayDark, SandDark, LilacDark, MossDark) else swatches
+        if (darkTheme) {
+            listOf(
+                SageDark, SkyDark, ClayDark, SandDark, LilacDark, MossDark,
+                BlushDark, ButterDark, TealDark, PlumDark, CoralDark, StoneDark,
+            )
+        } else {
+            swatches
+        }
 }

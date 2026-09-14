@@ -47,7 +47,7 @@ class TemplateCatalogTest {
     }
 
     @Test
-    fun catalog_hasEightLaunchTemplates() {
-        assertTrue(TemplateCatalog.all.size == 8)
+    fun catalog_hasElevenLaunchTemplates() {
+        assertTrue(TemplateCatalog.all.size == 11)
     }
 }

@@ -7,10 +7,6 @@ import androidx.compose.ui.graphics.Paint
 import androidx.compose.ui.graphics.PaintingStyle
 import com.calmcoloring.app.model.Template
 
-// Same stroke width RegionCanvas uses for outlines, so raster output matches
-// what's shown on screen.
-private const val OUTLINE_STROKE_WIDTH = 3.5f
-
 /**
  * Rasterizes [template] (with [fills] applied) into a fresh [ImageBitmap] of
  * exactly [widthPx] x [heightPx], fitting the template's viewBox within that
@@ -50,14 +46,17 @@ fun rasterizeTemplate(
     val strokePaint = Paint().apply {
         isAntiAlias = true
         style = PaintingStyle.Stroke
-        strokeWidth = OUTLINE_STROKE_WIDTH
         color = outlineColor
     }
 
     template.regions.forEach { region ->
-        fillPaint.color = fills[region.id] ?: unfilledColor
+        fillPaint.color = fills[region.id]
+            ?: (if (region.fillsWithOutlineByDefault) outlineColor else unfilledColor)
         canvas.drawPath(region.path, fillPaint)
-        canvas.drawPath(region.path, strokePaint)
+        if (region.strokeWidth > 0f) {
+            strokePaint.strokeWidth = region.strokeWidth
+            canvas.drawPath(region.path, strokePaint)
+        }
     }
 
     canvas.restore()

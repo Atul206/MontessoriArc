@@ -1,0 +1,12 @@
+{
+  "object_name": "FunnyCatPaths",
+  "traced_svg": "/absolute/path/to/scratchpad/traced.svg",
+  "out_kt": "/absolute/path/to/composeApp/src/commonMain/kotlin/com/calmcoloring/app/content/generated/FunnyCatPaths.kt",
+  "work_dir": "/absolute/path/to/scratchpad",
+  "solids": [
+    { "name": "body", "indices": [0] },
+    { "name": "eyeR", "indices": [1, 2, 3] },
+    { "name": "eyeL", "indices": [4, 5, 6] },
+    { "name": "bellyPatch", "indices": [8] }
+  ]
+}

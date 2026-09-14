@@ -1,0 +1,14 @@
+<svg viewBox="0 0 320 320" xmlns="http://www.w3.org/2000/svg">
+  <rect id="background" x="1.5" y="1.5" width="317" height="317" rx="18"/>
+  <circle id="armL" cx="70" cy="230" r="35"/>
+  <circle id="armR" cx="250" cy="230" r="35"/>
+  <path id="body" d="M85,290 L85,235 Q85,185 160,185 Q235,185 235,235 L235,290 Z"/>
+  <circle id="bellyPatch" cx="160" cy="250" r="35"/>
+  <circle id="earL" cx="100" cy="65" r="28"/>
+  <circle id="earR" cx="220" cy="65" r="28"/>
+  <circle id="head" cx="160" cy="110" r="62"/>
+  <circle id="muzzle" cx="160" cy="155" r="30"/>
+  <circle id="eyeL" cx="138" cy="105" r="9"/>
+  <circle id="eyeR" cx="182" cy="105" r="9"/>
+  <circle id="nose" cx="160" cy="150" r="9"/>
+</svg>

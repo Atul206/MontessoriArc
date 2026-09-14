@@ -5,6 +5,9 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
@@ -34,22 +37,12 @@ import kotlinx.coroutines.launch
 // convention and what actually fits here.)
 private val TOPBAR_ICON_SIZE = 48.dp
 
-// Palette swatch size bounds: weighted to divide available row width evenly
-// across all swatches (guaranteed to fit at any screen width), clamped so
-// they don't become illegibly tiny on very narrow screens or absurdly large
-// on tablets.
-//
-// NOTE: weight(1f) defaults to fill = true, which hands each swatch an
-// *exact* width constraint (min == max, its even share of the row's own
-// width). sizeIn's non-required intersection can't loosen an exact
-// constraint, so the min/max bounds below only actually clamp anything if
-// the Row's own width is itself bounded to <= 6 * SWATCH_MAX_SIZE (plus
-// spacing) — see `maxPaletteRowWidth` below, which the palette Row is
-// capped to so the swatches can't grow past SWATCH_MAX_SIZE on a wide
-// (tablet/foldable) screen. Confirmed via on-device testing at ~360dp,
-// ~411dp, and ~760dp emulated widths.
-private val SWATCH_MIN_SIZE = 40.dp
-private val SWATCH_MAX_SIZE = 64.dp
+// Palette swatch size: fixed rather than dividing the available width evenly
+// (as it was when the palette had to fit all swatches with no scrolling) —
+// now that the palette scrolls (LazyRow/LazyColumn below), a growing color
+// count no longer needs to shrink each swatch to fit; whatever doesn't fit
+// on screen is reached by swiping instead.
+private val SWATCH_SIZE = 56.dp
 private val PALETTE_SPACING = 8.dp
 
 @Composable
@@ -182,35 +175,32 @@ private fun PaletteSwatches(
     onSelect: (androidx.compose.ui.graphics.Color) -> Unit,
     arrangement: PaletteArrangement,
 ) {
-    // Caps the palette's own cross-axis extent so the weight(1f) split below
-    // divides at most this much space — without this cap, weight's exact
-    // (min == max) share per swatch would grow past SWATCH_MAX_SIZE on a
-    // wide/tall screen (see NOTE above).
-    val maxPaletteExtent = SWATCH_MAX_SIZE * swatches.size + PALETTE_SPACING * (swatches.size - 1)
+    // LazyRow/LazyColumn so a palette bigger than fits on screen scrolls
+    // instead of shrinking every swatch to squeeze in — each swatch stays a
+    // fixed, always-legible SWATCH_SIZE regardless of how many colors there
+    // are.
     when (arrangement) {
-        PaletteArrangement.Row -> Row(
-            modifier = Modifier.widthIn(max = maxPaletteExtent),
+        PaletteArrangement.Row -> LazyRow(
             horizontalArrangement = Arrangement.spacedBy(PALETTE_SPACING),
+            contentPadding = PaddingValues(horizontal = 2.dp),
         ) {
-            swatches.forEach { swatch ->
+            items(swatches) { swatch ->
                 PaletteSwatch(
                     swatch = swatch,
                     selected = swatch == selectedColor,
                     onSelect = onSelect,
-                    modifier = Modifier.weight(1f),
                 )
             }
         }
-        PaletteArrangement.Column -> Column(
-            modifier = Modifier.heightIn(max = maxPaletteExtent),
+        PaletteArrangement.Column -> LazyColumn(
             verticalArrangement = Arrangement.spacedBy(PALETTE_SPACING),
+            contentPadding = PaddingValues(vertical = 2.dp),
         ) {
-            swatches.forEach { swatch ->
+            items(swatches) { swatch ->
                 PaletteSwatch(
                     swatch = swatch,
                     selected = swatch == selectedColor,
                     onSelect = onSelect,
-                    modifier = Modifier.weight(1f),
                 )
             }
         }
@@ -222,17 +212,10 @@ private fun PaletteSwatch(
     swatch: androidx.compose.ui.graphics.Color,
     selected: Boolean,
     onSelect: (androidx.compose.ui.graphics.Color) -> Unit,
-    modifier: Modifier = Modifier,
 ) {
     Box(
-        modifier = modifier
-            .aspectRatio(1f)
-            .sizeIn(
-                minWidth = SWATCH_MIN_SIZE,
-                minHeight = SWATCH_MIN_SIZE,
-                maxWidth = SWATCH_MAX_SIZE,
-                maxHeight = SWATCH_MAX_SIZE,
-            )
+        modifier = Modifier
+            .size(SWATCH_SIZE)
             .clip(CircleShape)
             .background(swatch)
             .border(

@@ -37,9 +37,12 @@ fun DrawScope.drawTemplate(
         scale(scale, scale, pivot = Offset.Zero)
     }) {
         template.regions.forEach { region ->
-            val color = fills[region.id] ?: unfilledColor
+            val color = fills[region.id]
+                ?: (if (region.fillsWithOutlineByDefault) outlineColor else unfilledColor)
             drawPath(region.path, color = color)
-            drawPath(region.path, color = outlineColor, style = Stroke(width = 3.5f))
+            if (region.strokeWidth > 0f) {
+                drawPath(region.path, color = outlineColor, style = Stroke(width = region.strokeWidth))
+            }
         }
     }
 }
@@ -55,7 +58,8 @@ fun RegionCanvas(
 ) {
     val animatedFills = template.regions.associate { region ->
         region.id to animateColorAsState(
-            targetValue = fills[region.id] ?: unfilledColor,
+            targetValue = fills[region.id]
+                ?: (if (region.fillsWithOutlineByDefault) outlineColor else unfilledColor),
             animationSpec = spring(dampingRatio = 0.9f, stiffness = 60f),
             label = "region_fill_${region.id}",
         )
@@ -73,7 +77,8 @@ fun RegionCanvas(
                         (tapOffset.x - offsetX) / scale,
                         (tapOffset.y - offsetY) / scale,
                     )
-                    val hit = template.regions.lastOrNull { region -> pointInPolygon(local, region.hitPolygon) }
+                    val matches = template.regions.filter { region -> pointInPolygon(local, region.hitPolygon) }
+                    val hit = matches.lastOrNull { !it.isDecorative } ?: matches.lastOrNull()
                     hit?.let { onRegionTapped(it.id) }
                 })
             },

@@ -1,0 +1,10 @@
+{
+  "object_name": "ElephantPaths",
+  "traced_svg": "/private/tmp/claude-501/-Users-atul-Documents-dev-BabyApp/7c772d8d-b5ff-4be3-ad54-24aba7b954ba/scratchpad/elephant/traced.svg",
+  "out_kt": "/private/tmp/claude-501/-Users-atul-Documents-dev-BabyApp/7c772d8d-b5ff-4be3-ad54-24aba7b954ba/scratchpad/elephant/ElephantPaths.kt",
+  "work_dir": "/private/tmp/claude-501/-Users-atul-Documents-dev-BabyApp/7c772d8d-b5ff-4be3-ad54-24aba7b954ba/scratchpad/elephant",
+  "solids": [
+    { "name": "body", "indices": [0] },
+    { "name": "eye", "indices": [3] }
+  ]
+}
