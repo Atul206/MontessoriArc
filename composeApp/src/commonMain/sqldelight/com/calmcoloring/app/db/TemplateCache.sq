@@ -1,0 +1,39 @@
+CREATE TABLE CachedTemplate (
+    id TEXT NOT NULL PRIMARY KEY,
+    name TEXT NOT NULL,
+    accent TEXT NOT NULL,
+    viewBoxWidth REAL NOT NULL,
+    viewBoxHeight REAL NOT NULL,
+    contentVersion INTEGER NOT NULL
+);
+
+CREATE TABLE CachedRegion (
+    templateId TEXT NOT NULL,
+    orderIndex INTEGER NOT NULL,
+    regionId TEXT NOT NULL,
+    encodedShape TEXT NOT NULL,
+    PRIMARY KEY (templateId, orderIndex)
+);
+
+selectTemplate:
+SELECT * FROM CachedTemplate WHERE id = ?;
+
+selectAllTemplates:
+SELECT * FROM CachedTemplate;
+
+selectRegions:
+SELECT regionId, encodedShape FROM CachedRegion WHERE templateId = ? ORDER BY orderIndex;
+
+upsertTemplate:
+INSERT OR REPLACE INTO CachedTemplate(id, name, accent, viewBoxWidth, viewBoxHeight, contentVersion)
+VALUES (?, ?, ?, ?, ?, ?);
+
+deleteRegions:
+DELETE FROM CachedRegion WHERE templateId = ?;
+
+insertRegion:
+INSERT INTO CachedRegion(templateId, orderIndex, regionId, encodedShape)
+VALUES (?, ?, ?, ?);
+
+deleteTemplate:
+DELETE FROM CachedTemplate WHERE id = ?;
