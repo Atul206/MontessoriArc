@@ -3,6 +3,8 @@ package com.calmcoloring.app
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
@@ -10,7 +12,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ImageBitmap
-import com.calmcoloring.app.content.TemplateCatalog
+import com.calmcoloring.app.content.remote.ContentRepositoryProvider
 import com.calmcoloring.app.navigation.Route
 import com.calmcoloring.app.theme.CalmColoringTheme
 import com.calmcoloring.app.ui.coloring.ColoringScreen
@@ -32,15 +34,20 @@ fun CalmColoringApp() {
     CalmColoringTheme {
         Surface(modifier = Modifier.fillMaxSize()) {
             val backStack = remember { mutableStateListOf<Route>(Route.Gallery) }
+            val repository = remember { ContentRepositoryProvider.repository }
+            val templates by repository.templates.collectAsState()
+            LaunchedEffect(Unit) { repository.refresh() }
 
             when (val current = backStack.last()) {
                 is Route.Gallery -> GalleryScreen(
-                    templates = TemplateCatalog.all,
+                    templates = templates,
                     onTemplateSelected = { id -> backStack.add(Route.Coloring(id)) },
                 )
 
                 is Route.Coloring -> {
-                    val template = remember(current.templateId) { TemplateCatalog.byId(current.templateId) }
+                    val template = remember(current.templateId, templates) {
+                        templates.first { it.id == current.templateId }
+                    }
                     var shareArtwork by remember { mutableStateOf<ImageBitmap?>(null) }
                     ColoringScreen(
                         template = template,
