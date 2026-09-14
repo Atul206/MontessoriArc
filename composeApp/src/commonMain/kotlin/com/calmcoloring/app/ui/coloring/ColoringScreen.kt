@@ -75,6 +75,13 @@ fun ColoringScreen(
     // back arrow below (Finding 5, final review).
     SystemBackHandler(onBack = onBack)
 
+    val swatches = CalmPalette.swatchesFor(isDark)
+    val canvasModifier = Modifier
+        .drawWithContent {
+            graphicsLayer.record { this@drawWithContent.drawContent() }
+            drawLayer(graphicsLayer)
+        }
+
     // safeDrawingPadding keeps the topbar's back/share icons and the
     // palette swatches clear of the status/navigation bars in edge-to-edge
     // mode (android-skills:edge-to-edge).
@@ -101,56 +108,138 @@ fun ColoringScreen(
             }
         }
 
-        Box(modifier = Modifier.weight(1f).padding(16.dp), contentAlignment = Alignment.Center) {
-            RegionCanvas(
-                template = template,
-                fills = viewModel.fills,
-                unfilledColor = unfilledColor,
-                outlineColor = outlineColor,
-                onRegionTapped = viewModel::onRegionTapped,
-                modifier = Modifier
-                    .fillMaxSize()
-                    .drawWithContent {
-                        graphicsLayer.record { this@drawWithContent.drawContent() }
-                        drawLayer(graphicsLayer)
-                    },
-            )
-        }
-
-        val swatches = CalmPalette.swatchesFor(isDark)
-        // Caps the palette Row's own width so the weight(1f) split below
-        // divides at most this much space — without this cap, weight's
-        // exact (min == max) share per swatch would grow past
-        // SWATCH_MAX_SIZE on a wide screen (see NOTE above).
-        val maxPaletteRowWidth = SWATCH_MAX_SIZE * swatches.size + PALETTE_SPACING * (swatches.size - 1)
-        Box(modifier = Modifier.fillMaxWidth().padding(16.dp), contentAlignment = Alignment.Center) {
-            Row(
-                modifier = Modifier.widthIn(max = maxPaletteRowWidth),
-                horizontalArrangement = Arrangement.spacedBy(PALETTE_SPACING),
-            ) {
-                swatches.forEach { swatch ->
-                    val selected = swatch == viewModel.selectedColor
+        // BoxWithConstraints reads the space actually left under the topbar
+        // so portrait (taller-than-wide) and landscape/tablet (wider-than-tall)
+        // can each get a deliberately arranged layout instead of one arrangement
+        // stretched to fit both. See Finding 1/2, bugfix round 2.
+        BoxWithConstraints(modifier = Modifier.weight(1f).fillMaxWidth()) {
+            val isLandscape = maxWidth > maxHeight
+            if (isLandscape) {
+                Row(modifier = Modifier.fillMaxSize()) {
                     Box(
-                        modifier = Modifier
-                            .weight(1f)
-                            .aspectRatio(1f)
-                            .sizeIn(
-                                minWidth = SWATCH_MIN_SIZE,
-                                minHeight = SWATCH_MIN_SIZE,
-                                maxWidth = SWATCH_MAX_SIZE,
-                                maxHeight = SWATCH_MAX_SIZE,
-                            )
-                            .clip(CircleShape)
-                            .background(swatch)
-                            .border(
-                                width = if (selected) 2.5.dp else 0.dp,
-                                color = MaterialTheme.colorScheme.onSurface,
-                                shape = CircleShape,
-                            )
-                            .clickable { viewModel.selectColor(swatch) },
-                    )
+                        modifier = Modifier.weight(1f).fillMaxHeight().padding(16.dp),
+                        contentAlignment = Alignment.Center,
+                    ) {
+                        RegionCanvas(
+                            template = template,
+                            fills = viewModel.fills,
+                            unfilledColor = unfilledColor,
+                            outlineColor = outlineColor,
+                            onRegionTapped = viewModel::onRegionTapped,
+                            modifier = canvasModifier,
+                        )
+                    }
+                    Box(
+                        modifier = Modifier.fillMaxHeight().padding(16.dp),
+                        contentAlignment = Alignment.Center,
+                    ) {
+                        PaletteSwatches(
+                            swatches = swatches,
+                            selectedColor = viewModel.selectedColor,
+                            onSelect = viewModel::selectColor,
+                            arrangement = PaletteArrangement.Column,
+                        )
+                    }
+                }
+            } else {
+                Column(modifier = Modifier.fillMaxSize()) {
+                    Box(
+                        modifier = Modifier.weight(1f).fillMaxWidth().padding(16.dp),
+                        contentAlignment = Alignment.Center,
+                    ) {
+                        RegionCanvas(
+                            template = template,
+                            fills = viewModel.fills,
+                            unfilledColor = unfilledColor,
+                            outlineColor = outlineColor,
+                            onRegionTapped = viewModel::onRegionTapped,
+                            modifier = canvasModifier,
+                        )
+                    }
+                    Box(
+                        modifier = Modifier.fillMaxWidth().padding(16.dp),
+                        contentAlignment = Alignment.Center,
+                    ) {
+                        PaletteSwatches(
+                            swatches = swatches,
+                            selectedColor = viewModel.selectedColor,
+                            onSelect = viewModel::selectColor,
+                            arrangement = PaletteArrangement.Row,
+                        )
+                    }
                 }
             }
         }
     }
+}
+
+private enum class PaletteArrangement { Row, Column }
+
+@Composable
+private fun PaletteSwatches(
+    swatches: List<androidx.compose.ui.graphics.Color>,
+    selectedColor: androidx.compose.ui.graphics.Color,
+    onSelect: (androidx.compose.ui.graphics.Color) -> Unit,
+    arrangement: PaletteArrangement,
+) {
+    // Caps the palette's own cross-axis extent so the weight(1f) split below
+    // divides at most this much space — without this cap, weight's exact
+    // (min == max) share per swatch would grow past SWATCH_MAX_SIZE on a
+    // wide/tall screen (see NOTE above).
+    val maxPaletteExtent = SWATCH_MAX_SIZE * swatches.size + PALETTE_SPACING * (swatches.size - 1)
+    when (arrangement) {
+        PaletteArrangement.Row -> Row(
+            modifier = Modifier.widthIn(max = maxPaletteExtent),
+            horizontalArrangement = Arrangement.spacedBy(PALETTE_SPACING),
+        ) {
+            swatches.forEach { swatch ->
+                PaletteSwatch(
+                    swatch = swatch,
+                    selected = swatch == selectedColor,
+                    onSelect = onSelect,
+                    modifier = Modifier.weight(1f),
+                )
+            }
+        }
+        PaletteArrangement.Column -> Column(
+            modifier = Modifier.heightIn(max = maxPaletteExtent),
+            verticalArrangement = Arrangement.spacedBy(PALETTE_SPACING),
+        ) {
+            swatches.forEach { swatch ->
+                PaletteSwatch(
+                    swatch = swatch,
+                    selected = swatch == selectedColor,
+                    onSelect = onSelect,
+                    modifier = Modifier.weight(1f),
+                )
+            }
+        }
+    }
+}
+
+@Composable
+private fun PaletteSwatch(
+    swatch: androidx.compose.ui.graphics.Color,
+    selected: Boolean,
+    onSelect: (androidx.compose.ui.graphics.Color) -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    Box(
+        modifier = modifier
+            .aspectRatio(1f)
+            .sizeIn(
+                minWidth = SWATCH_MIN_SIZE,
+                minHeight = SWATCH_MIN_SIZE,
+                maxWidth = SWATCH_MAX_SIZE,
+                maxHeight = SWATCH_MAX_SIZE,
+            )
+            .clip(CircleShape)
+            .background(swatch)
+            .border(
+                width = if (selected) 2.5.dp else 0.dp,
+                color = MaterialTheme.colorScheme.onSurface,
+                shape = CircleShape,
+            )
+            .clickable { onSelect(swatch) },
+    )
 }
