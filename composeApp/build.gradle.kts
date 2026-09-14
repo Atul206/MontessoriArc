@@ -6,6 +6,16 @@ plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
+    alias(libs.plugins.kotlinxSerialization)
+    alias(libs.plugins.sqldelight)
+}
+
+sqldelight {
+    databases {
+        create("TemplateCacheDatabase") {
+            packageName.set("com.calmcoloring.app.db")
+        }
+    }
 }
 
 kotlin {
@@ -40,20 +50,33 @@ kotlin {
             implementation(libs.androidx.lifecycle.viewmodel)
             implementation(libs.androidx.lifecycle.runtime.compose)
             implementation(libs.androidx.lifecycle.viewmodel.compose)
+            implementation(libs.kotlinx.serialization.json)
+            implementation(libs.kotlinx.coroutines.core)
+            implementation(libs.ktor.client.core)
+            implementation(libs.ktor.client.content.negotiation)
+            implementation(libs.ktor.serialization.kotlinx.json)
+            implementation(libs.sqldelight.runtime)
         }
         commonTest.dependencies {
             implementation(kotlin("test"))
+        }
+        iosMain.dependencies {
+            implementation(libs.ktor.client.darwin)
+            implementation(libs.sqldelight.native.driver)
         }
         androidMain.dependencies {
             implementation(compose.uiTooling)
             implementation(libs.androidx.activity.compose)
             implementation(libs.androidx.core.ktx)
+            implementation(libs.ktor.client.okhttp)
+            implementation(libs.sqldelight.android.driver)
         }
         androidUnitTest.dependencies {
             // See the `robolectric` version note in gradle/libs.versions.toml:
             // TemplateCatalogTest exercises real androidx.compose.ui.graphics.Path
             // geometry, which the plain android.jar test stub can't provide.
             implementation(libs.robolectric)
+            implementation(libs.ktor.client.mock)
         }
         androidInstrumentedTest.dependencies {
             // Task 9: the one Compose UI test that exercises real layout +
