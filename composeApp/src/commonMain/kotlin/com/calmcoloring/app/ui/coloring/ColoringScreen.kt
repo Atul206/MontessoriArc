@@ -38,8 +38,19 @@ private val TOPBAR_ICON_SIZE = 48.dp
 // across all swatches (guaranteed to fit at any screen width), clamped so
 // they don't become illegibly tiny on very narrow screens or absurdly large
 // on tablets.
+//
+// NOTE: weight(1f) defaults to fill = true, which hands each swatch an
+// *exact* width constraint (min == max, its even share of the row's own
+// width). sizeIn's non-required intersection can't loosen an exact
+// constraint, so the min/max bounds below only actually clamp anything if
+// the Row's own width is itself bounded to <= 6 * SWATCH_MAX_SIZE (plus
+// spacing) — see `maxPaletteRowWidth` below, which the palette Row is
+// capped to so the swatches can't grow past SWATCH_MAX_SIZE on a wide
+// (tablet/foldable) screen. Confirmed via on-device testing at ~360dp,
+// ~411dp, and ~760dp emulated widths.
 private val SWATCH_MIN_SIZE = 40.dp
 private val SWATCH_MAX_SIZE = 64.dp
+private val PALETTE_SPACING = 8.dp
 
 @Composable
 fun ColoringScreen(
@@ -106,31 +117,39 @@ fun ColoringScreen(
             )
         }
 
-        Row(
-            modifier = Modifier.fillMaxWidth().padding(16.dp),
-            horizontalArrangement = Arrangement.spacedBy(8.dp),
-        ) {
-            CalmPalette.swatchesFor(isDark).forEach { swatch ->
-                val selected = swatch == viewModel.selectedColor
-                Box(
-                    modifier = Modifier
-                        .weight(1f)
-                        .aspectRatio(1f)
-                        .sizeIn(
-                            minWidth = SWATCH_MIN_SIZE,
-                            minHeight = SWATCH_MIN_SIZE,
-                            maxWidth = SWATCH_MAX_SIZE,
-                            maxHeight = SWATCH_MAX_SIZE,
-                        )
-                        .clip(CircleShape)
-                        .background(swatch)
-                        .border(
-                            width = if (selected) 2.5.dp else 0.dp,
-                            color = MaterialTheme.colorScheme.onSurface,
-                            shape = CircleShape,
-                        )
-                        .clickable { viewModel.selectColor(swatch) },
-                )
+        val swatches = CalmPalette.swatchesFor(isDark)
+        // Caps the palette Row's own width so the weight(1f) split below
+        // divides at most this much space — without this cap, weight's
+        // exact (min == max) share per swatch would grow past
+        // SWATCH_MAX_SIZE on a wide screen (see NOTE above).
+        val maxPaletteRowWidth = SWATCH_MAX_SIZE * swatches.size + PALETTE_SPACING * (swatches.size - 1)
+        Box(modifier = Modifier.fillMaxWidth().padding(16.dp), contentAlignment = Alignment.Center) {
+            Row(
+                modifier = Modifier.widthIn(max = maxPaletteRowWidth),
+                horizontalArrangement = Arrangement.spacedBy(PALETTE_SPACING),
+            ) {
+                swatches.forEach { swatch ->
+                    val selected = swatch == viewModel.selectedColor
+                    Box(
+                        modifier = Modifier
+                            .weight(1f)
+                            .aspectRatio(1f)
+                            .sizeIn(
+                                minWidth = SWATCH_MIN_SIZE,
+                                minHeight = SWATCH_MIN_SIZE,
+                                maxWidth = SWATCH_MAX_SIZE,
+                                maxHeight = SWATCH_MAX_SIZE,
+                            )
+                            .clip(CircleShape)
+                            .background(swatch)
+                            .border(
+                                width = if (selected) 2.5.dp else 0.dp,
+                                color = MaterialTheme.colorScheme.onSurface,
+                                shape = CircleShape,
+                            )
+                            .clickable { viewModel.selectColor(swatch) },
+                    )
+                }
             }
         }
     }
