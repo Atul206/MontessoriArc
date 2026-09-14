@@ -5,14 +5,16 @@ import com.calmcoloring.app.content.generated.svgArcTo
 
 private val PATH_TOKEN = Regex("[MmLlHhVvQqCcAaZz]|-?\\d*\\.?\\d+(?:[eE][-+]?\\d+)?")
 
-// Parses an SVG d attribute into a Compose Path, for the command subset
-// every svg/*.svg source in this repo actually uses: M/m, L/l, H/h, V/v,
-// Q/q, C/c, A/a, and Z/z -- no shorthand S/T curves. Arc flags (largeArc,
-// sweep) must be whitespace-separated tokens ("a30,30 0 0 1 ...", never
-// the digit-glued "a30,30 0011" form) -- true of every hand-authored arc in
-// this project (see docs/content-ota.md), and this tokenizer relies on it.
-// The x-axis-rotation argument is parsed but always treated as 0, matching
-// every arc drawn so far; extend if a template ever needs a rotated arc.
+/**
+ * Parses an SVG `d` attribute into a Compose [Path], for the command subset
+ * every svg-source file in this repo actually uses: M/m, L/l, H/h, V/v,
+ * Q/q, C/c, A/a, and Z/z — no shorthand S/T curves. Arc flags (`largeArc`,
+ * `sweep`) must be whitespace-separated tokens (`"a30,30 0 0 1 ..."`, never
+ * the digit-glued `"a30,30 0011"` form) — true of every hand-authored arc in
+ * this project (see docs/content-ota.md), and this tokenizer relies on it.
+ * The x-axis-rotation argument is parsed but always treated as 0, matching
+ * every arc drawn so far; extend if a template ever needs a rotated arc.
+ */
 internal fun parseSvgPathData(d: String): Path {
     val tokens = PATH_TOKEN.findAll(d.trim()).map { it.value }.toList()
     val path = Path()
