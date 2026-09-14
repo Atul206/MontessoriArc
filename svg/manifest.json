@@ -1,0 +1,14 @@
+{
+  "templates": [
+    { "id": "sunny-day", "name": "Sunny Day", "accent": "SAND", "file": "sunny-day.svg", "contentVersion": 1 },
+    { "id": "little-house", "name": "Little House", "accent": "CLAY", "file": "little-house.svg", "contentVersion": 1 },
+    { "id": "apple-tree", "name": "Apple Tree", "accent": "MOSS", "file": "apple-tree.svg", "contentVersion": 1 },
+    { "id": "sleepy-cat", "name": "Sleepy Cat", "accent": "LILAC", "file": "sleepy-cat.svg", "contentVersion": 1 },
+    { "id": "little-fish", "name": "Little Fish", "accent": "SKY", "file": "little-fish.svg", "contentVersion": 1 },
+    { "id": "garden-flower", "name": "Garden Flower", "accent": "SAGE", "file": "garden-flower.svg", "contentVersion": 1 },
+    { "id": "sailboat", "name": "Sailboat", "accent": "CLAY", "file": "sailboat.svg", "contentVersion": 1 },
+    { "id": "balloon-ride", "name": "Balloon Ride", "accent": "SAND", "file": "balloon-ride.svg", "contentVersion": 1 },
+    { "id": "cat", "name": "Cat", "accent": "SKY", "file": "cat.svg", "contentVersion": 1 }
+  ],
+  "removedIds": []
+}
