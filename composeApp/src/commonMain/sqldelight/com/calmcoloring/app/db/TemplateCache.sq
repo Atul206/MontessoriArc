@@ -4,7 +4,12 @@ CREATE TABLE CachedTemplate (
     accent TEXT NOT NULL,
     viewBoxWidth REAL NOT NULL,
     viewBoxHeight REAL NOT NULL,
-    contentVersion INTEGER NOT NULL
+    contentVersion INTEGER NOT NULL,
+    -- This template's position in the manifest's `templates` array as of the
+    -- refresh that (re)cached it. `INSERT OR REPLACE` shifts SQLite rowids
+    -- around on update, so gallery order can't rely on natural row order —
+    -- ordering by this column keeps it stable across refreshes instead.
+    sortIndex INTEGER NOT NULL DEFAULT 0
 );
 
 CREATE TABLE CachedRegion (
@@ -12,6 +17,10 @@ CREATE TABLE CachedRegion (
     orderIndex INTEGER NOT NULL,
     regionId TEXT NOT NULL,
     encodedShape TEXT NOT NULL,
+    -- "angleDegrees,cx,cy" for a region parsed from a `transform="rotate(...)"`
+    -- attribute, NULL otherwise. Kept separate from encodedShape so
+    -- RemoteShape.encode()/decodeShape() stay geometry-only.
+    rotation TEXT,
     PRIMARY KEY (templateId, orderIndex)
 );
 
@@ -19,21 +28,21 @@ selectTemplate:
 SELECT * FROM CachedTemplate WHERE id = ?;
 
 selectAllTemplates:
-SELECT * FROM CachedTemplate;
+SELECT * FROM CachedTemplate ORDER BY sortIndex;
 
 selectRegions:
-SELECT regionId, encodedShape FROM CachedRegion WHERE templateId = ? ORDER BY orderIndex;
+SELECT regionId, encodedShape, rotation FROM CachedRegion WHERE templateId = ? ORDER BY orderIndex;
 
 upsertTemplate:
-INSERT OR REPLACE INTO CachedTemplate(id, name, accent, viewBoxWidth, viewBoxHeight, contentVersion)
-VALUES (?, ?, ?, ?, ?, ?);
+INSERT OR REPLACE INTO CachedTemplate(id, name, accent, viewBoxWidth, viewBoxHeight, contentVersion, sortIndex)
+VALUES (?, ?, ?, ?, ?, ?, ?);
 
 deleteRegions:
 DELETE FROM CachedRegion WHERE templateId = ?;
 
 insertRegion:
-INSERT INTO CachedRegion(templateId, orderIndex, regionId, encodedShape)
-VALUES (?, ?, ?, ?);
+INSERT INTO CachedRegion(templateId, orderIndex, regionId, encodedShape, rotation)
+VALUES (?, ?, ?, ?, ?);
 
 deleteTemplate:
 DELETE FROM CachedTemplate WHERE id = ?;

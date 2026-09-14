@@ -121,4 +121,41 @@ class ContentRepositoryTest {
         val restored = repository.templates.value.first { it.id == bundledId }
         assertEquals(TemplateCatalog.all.first().regions.map { it.id }, restored.regions.map { it.id })
     }
+
+    // Final-review Important #7: kotlinx.serialization decodes `templates`
+    // atomically — one entry with an unrecognized `accent` enum value would
+    // throw during `Json.decodeFromString<ContentManifest>`, and (before
+    // this fix) ContentRepository.refresh()'s outer catch would return
+    // immediately, meaning `removedIds` never got processed either. Since
+    // `removedIds` is the rollback mechanism, one bad manifest entry would
+    // effectively disable rollback of everything else. This proves a
+    // malformed entry no longer prevents `removedIds` from being purged.
+    @Test
+    fun refresh_stillPurgesRemovedIds_whenAnotherManifestEntryIsMalformed() = runTest {
+        val cache = newCacheStore()
+        cache.replaceTemplate(
+            id = "bad-template", name = "Bad", accent = AccentKey.CLAY,
+            viewBoxWidth = 100f, viewBoxHeight = 100f, contentVersion = 1,
+            regions = listOf(RemoteRegion("a", RemoteShape.Circle(50f, 50f, 40f))),
+        )
+        // "accent": "NOT_A_REAL_ACCENT" doesn't match any AccentKey value —
+        // this single entry would previously fail Json.decodeFromString for
+        // the whole manifest document.
+        val manifest = """
+            {
+              "templates": [
+                {"id":"broken","name":"Broken","accent":"NOT_A_REAL_ACCENT","file":"broken.svg","contentVersion":1}
+              ],
+              "removedIds": ["bad-template"]
+            }
+        """.trimIndent()
+        val repository = ContentRepository(mockApi(manifest, emptyMap()), cache)
+
+        repository.refresh()
+
+        assertEquals(null, cache.cachedContentVersion("bad-template"))
+        assertTrue("bad-template" !in repository.templates.value.map { it.id })
+        // The malformed entry itself was skipped, not crashed on or half-applied.
+        assertTrue("broken" !in repository.templates.value.map { it.id })
+    }
 }

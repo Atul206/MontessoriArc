@@ -46,16 +46,25 @@ fun CalmColoringApp() {
 
                 is Route.Coloring -> {
                     val template = remember(current.templateId, templates) {
-                        templates.first { it.id == current.templateId }
+                        templates.firstOrNull { it.id == current.templateId }
                     }
-                    var shareArtwork by remember { mutableStateOf<ImageBitmap?>(null) }
-                    ColoringScreen(
-                        template = template,
-                        onBack = { backStack.removeAt(backStack.lastIndex) },
-                        onShareRequested = { bitmap -> shareArtwork = bitmap },
-                    )
-                    shareArtwork?.let { bitmap ->
-                        ShareSheet(artwork = bitmap, onDismiss = { shareArtwork = null })
+                    if (template == null) {
+                        // The template being viewed vanished from `templates`
+                        // mid-session — e.g. refresh() just processed a
+                        // removedIds entry for an OTA-only template with no
+                        // bundled fallback. Bail to the gallery instead of
+                        // crashing on a missing template.
+                        LaunchedEffect(current) { backStack.removeAt(backStack.lastIndex) }
+                    } else {
+                        var shareArtwork by remember { mutableStateOf<ImageBitmap?>(null) }
+                        ColoringScreen(
+                            template = template,
+                            onBack = { backStack.removeAt(backStack.lastIndex) },
+                            onShareRequested = { bitmap -> shareArtwork = bitmap },
+                        )
+                        shareArtwork?.let { bitmap ->
+                            ShareSheet(artwork = bitmap, onDismiss = { shareArtwork = null })
+                        }
                     }
                 }
             }
