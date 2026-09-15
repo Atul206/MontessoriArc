@@ -57,10 +57,29 @@ fun CalmColoringApp() {
                         LaunchedEffect(current) { backStack.removeAt(backStack.lastIndex) }
                     } else {
                         var shareArtwork by remember { mutableStateOf<ImageBitmap?>(null) }
+                        // Cycling replaces the current back-stack entry rather than
+                        // pushing a new one, so the left/right arrows can hop between
+                        // templates indefinitely while `onBack` still returns to the
+                        // gallery in a single step. Only offered when there's another
+                        // template to cycle to.
+                        val currentIndex = templates.indexOf(template)
+                        val hasNeighbors = templates.size > 1
                         ColoringScreen(
                             template = template,
                             onBack = { backStack.removeAt(backStack.lastIndex) },
                             onShareRequested = { bitmap -> shareArtwork = bitmap },
+                            onPrevious = if (hasNeighbors) {
+                                {
+                                    val prevIndex = (currentIndex - 1 + templates.size) % templates.size
+                                    backStack[backStack.lastIndex] = Route.Coloring(templates[prevIndex].id)
+                                }
+                            } else null,
+                            onNext = if (hasNeighbors) {
+                                {
+                                    val nextIndex = (currentIndex + 1) % templates.size
+                                    backStack[backStack.lastIndex] = Route.Coloring(templates[nextIndex].id)
+                                }
+                            } else null,
                         )
                         shareArtwork?.let { bitmap ->
                             ShareSheet(artwork = bitmap, onDismiss = { shareArtwork = null })

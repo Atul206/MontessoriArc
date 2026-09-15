@@ -14,11 +14,18 @@ import kotlin.test.fail
  * Exercises [parseSvgDocument] against the real, published `svg/manifest.json`
  * and every `svg/<file>.svg` it references — the final whole-branch review
  * found that no existing test ever did this, which is exactly how the
- * `<ellipse>` element (used by 4 of the 9 published templates) turned out to
- * be silently dropped by [parseSvgDocument]'s element regex, and how
+ * `<ellipse>` element (used by 4 of the original 9 launch templates) turned
+ * out to be silently dropped by [parseSvgDocument]'s element regex, and how
  * `garden-flower.svg`'s `transform="rotate(...)"` petals went unhandled:
  * every other test uses hand-written SVG snippets that happen not to use
  * either feature.
+ *
+ * The manifest now also carries OTA-only entries (no compiled counterpart in
+ * [TemplateCatalog] — see `docs/content-ota.md`'s "no bundled fallback" case),
+ * so every entry is checked for at least parsing successfully into a sane
+ * region list, and only entries that also exist in [TemplateCatalog] get the
+ * stricter byte-for-byte region/viewBox comparison against the compiled
+ * version.
  *
  * Lives in `androidUnitTest` (Robolectric) rather than `commonTest` because
  * it needs real `Path`/`PathMeasure` support to sample hit polygons via
@@ -57,11 +64,25 @@ class SvgManifestContentTest {
         val manifestFile = File(repoRoot, "svg/manifest.json")
         val manifest = json.decodeFromString(ContentManifest.serializer(), manifestFile.readText())
 
-        assertEquals(9, manifest.templates.size, "sanity check: expected the 9 published launch templates")
+        val bundledIds = TemplateCatalog.all.map { it.id }.toSet()
+        assertEquals(11, bundledIds.size, "sanity check: expected the 11 compiled launch templates")
 
         for (entry in manifest.templates) {
             val svgFile = File(repoRoot, "svg/${entry.file}")
             val document = parseSvgDocument(svgFile.readText())
+
+            // Every entry — bundled or OTA-only — must at least parse into a
+            // sane region list with the app's conventional first region.
+            assertEquals(
+                "background",
+                document.regions.firstOrNull()?.id,
+                "first region should be 'background' for '${entry.id}' (${entry.file})",
+            )
+
+            // Only entries that also exist as a compiled launch template get
+            // the stricter byte-for-byte comparison — an OTA-only entry (no
+            // bundled fallback) has nothing to compare against.
+            if (entry.id !in bundledIds) continue
             val compiled = TemplateCatalog.byId(entry.id)
 
             assertEquals(

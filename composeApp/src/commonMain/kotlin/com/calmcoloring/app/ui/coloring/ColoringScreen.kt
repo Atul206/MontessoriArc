@@ -1,5 +1,6 @@
 package com.calmcoloring.app.ui.coloring
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -11,6 +12,8 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.KeyboardArrowLeft
+import androidx.compose.material.icons.filled.KeyboardArrowRight
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -21,6 +24,7 @@ import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.layer.drawLayer
 import androidx.compose.ui.graphics.rememberGraphicsLayer
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.lifecycle.viewmodel.initializer
@@ -45,11 +49,21 @@ private val TOPBAR_ICON_SIZE = 48.dp
 private val SWATCH_SIZE = 56.dp
 private val PALETTE_SPACING = 8.dp
 
+// Game-console-style D-pad touch target: same floor as the topbar icons.
+private val NAV_ARROW_SIZE = 56.dp
+
 @Composable
 fun ColoringScreen(
     template: Template,
     onBack: () -> Unit,
     onShareRequested: (ImageBitmap) -> Unit,
+    // Null hides the corresponding arrow entirely (e.g. only one template
+    // exists). Cycling to a neighbor is the caller's job — this screen just
+    // renders whatever `template` it's given next, so switching already
+    // starts that template fresh (see `ColoringViewModel`'s `key = template.id`
+    // below) without this screen needing any extra reset logic of its own.
+    onPrevious: (() -> Unit)? = null,
+    onNext: (() -> Unit)? = null,
     modifier: Modifier = Modifier,
 ) {
     val isDark = isSystemInDarkTheme()
@@ -99,6 +113,26 @@ fun ColoringScreen(
             ) {
                 Icon(Icons.Filled.Share, contentDescription = "Share this picture")
             }
+        }
+
+        // A simple, fixed row above the canvas — same place every time,
+        // regardless of what's drawn underneath it, rather than either
+        // overlapping the artwork (collides with whatever's drawn at its
+        // center) or shrinking the canvas to make room beside it.
+        Row(
+            modifier = Modifier.fillMaxWidth().padding(horizontal = 8.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+        ) {
+            NavArrowRail(
+                icon = Icons.Filled.KeyboardArrowLeft,
+                contentDescription = "Previous template",
+                onClick = onPrevious,
+            )
+            NavArrowRail(
+                icon = Icons.Filled.KeyboardArrowRight,
+                contentDescription = "Next template",
+                onClick = onNext,
+            )
         }
 
         // BoxWithConstraints reads the space actually left under the topbar
@@ -162,6 +196,49 @@ fun ColoringScreen(
                     }
                 }
             }
+        }
+    }
+}
+
+// Renders nothing (not even a placeholder) when `onClick` is null (only one
+// template exists) — the surrounding Row's SpaceBetween arrangement handles
+// that gracefully on its own, no reserved space needed.
+@Composable
+private fun NavArrowRail(
+    icon: ImageVector,
+    contentDescription: String,
+    onClick: (() -> Unit)?,
+) {
+    onClick?.let {
+        NavArrowButton(icon = icon, contentDescription = contentDescription, onClick = it)
+    }
+}
+
+@Composable
+private fun NavArrowButton(
+    icon: ImageVector,
+    contentDescription: String,
+    onClick: () -> Unit,
+) {
+    // Fully opaque + a real drop shadow (not just tonalElevation's subtle
+    // tint) so this reads unmistakably as a floating control regardless of
+    // what color the artwork underneath happens to be — the previous
+    // translucent version was nearly invisible against a light background.
+    Surface(
+        onClick = onClick,
+        modifier = Modifier.size(NAV_ARROW_SIZE),
+        shape = CircleShape,
+        color = MaterialTheme.colorScheme.surface,
+        shadowElevation = 6.dp,
+        border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline.copy(alpha = 0.4f)),
+    ) {
+        Box(contentAlignment = Alignment.Center) {
+            Icon(
+                icon,
+                contentDescription = contentDescription,
+                tint = MaterialTheme.colorScheme.onSurface,
+                modifier = Modifier.size(32.dp),
+            )
         }
     }
 }
