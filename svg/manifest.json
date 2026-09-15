@@ -8,7 +8,22 @@
     { "id": "garden-flower", "name": "Garden Flower", "accent": "SAGE", "file": "garden-flower.svg", "contentVersion": 1 },
     { "id": "sailboat", "name": "Sailboat", "accent": "CLAY", "file": "sailboat.svg", "contentVersion": 1 },
     { "id": "balloon-ride", "name": "Balloon Ride", "accent": "SAND", "file": "balloon-ride.svg", "contentVersion": 1 },
-    { "id": "cat", "name": "Cat", "accent": "SKY", "file": "cat.svg", "contentVersion": 1 }
+    { "id": "cat", "name": "Cat", "accent": "SKY", "file": "cat.svg", "contentVersion": 1 },
+    { "id": "rabbit", "name": "Rabbit", "accent": "SAND", "file": "rabbit.svg", "contentVersion": 1 },
+    { "id": "frog", "name": "Frog", "accent": "SAGE", "file": "frog.svg", "contentVersion": 1 },
+    { "id": "koala", "name": "Koala", "accent": "LILAC", "file": "koala.svg", "contentVersion": 1 },
+    { "id": "boat", "name": "Boat", "accent": "SKY", "file": "boat.svg", "contentVersion": 1 },
+    { "id": "train", "name": "Train", "accent": "CLAY", "file": "train.svg", "contentVersion": 1 },
+    { "id": "tractor", "name": "Tractor", "accent": "MOSS", "file": "tractor.svg", "contentVersion": 1 },
+    { "id": "popsicle", "name": "Popsicle", "accent": "CLAY", "file": "popsicle.svg", "contentVersion": 1 },
+    { "id": "candy", "name": "Candy", "accent": "LILAC", "file": "candy.svg", "contentVersion": 1 },
+    { "id": "pear", "name": "Pear", "accent": "MOSS", "file": "pear.svg", "contentVersion": 1 },
+    { "id": "tiger", "name": "Tiger", "accent": "SAND", "file": "tiger.svg", "contentVersion": 1 },
+    { "id": "snail", "name": "Snail", "accent": "CLAY", "file": "snail.svg", "contentVersion": 1 },
+    { "id": "carrot", "name": "Carrot", "accent": "SAND", "file": "carrot.svg", "contentVersion": 1 },
+    { "id": "cherries", "name": "Cherries", "accent": "SAGE", "file": "cherries.svg", "contentVersion": 1 },
+    { "id": "bee", "name": "Bee", "accent": "SAND", "file": "bee.svg", "contentVersion": 1 },
+    { "id": "cactus", "name": "Cactus", "accent": "SAGE", "file": "cactus.svg", "contentVersion": 1 }
   ],
   "removedIds": []
 }

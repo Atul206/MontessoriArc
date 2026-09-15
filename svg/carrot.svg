@@ -1,0 +1,7 @@
+<svg viewBox="0 0 320 320" xmlns="http://www.w3.org/2000/svg">
+  <rect id="background" x="1.5" y="1.5" width="317" height="317" rx="18"/>
+  <path id="leafL" d="M160,110 Q130,92 116,58 Q146,64 160,110 Z"/>
+  <path id="leafC" d="M160,110 Q152,68 160,48 Q168,68 160,110 Z"/>
+  <path id="leafR" d="M160,110 Q190,92 204,58 Q174,64 160,110 Z"/>
+  <path id="body" d="M160,110 L205,270 Q160,300 115,270 Z"/>
+</svg>

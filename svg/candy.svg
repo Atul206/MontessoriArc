@@ -1,0 +1,6 @@
+<svg viewBox="0 0 320 320" xmlns="http://www.w3.org/2000/svg">
+  <rect id="background" x="1.5" y="1.5" width="317" height="317" rx="18"/>
+  <path id="wrapL" d="M75,110 L75,210 L105,160 Z"/>
+  <path id="wrapR" d="M245,110 L245,210 L215,160 Z"/>
+  <circle id="center" cx="160" cy="160" r="55"/>
+</svg>

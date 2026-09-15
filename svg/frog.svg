@@ -1,0 +1,10 @@
+<svg viewBox="0 0 320 320" xmlns="http://www.w3.org/2000/svg">
+  <rect id="background" x="1.5" y="1.5" width="317" height="317" rx="18"/>
+  <ellipse id="lilyPad" cx="160" cy="272" rx="120" ry="26"/>
+  <path id="body" d="M95,255 Q95,175 160,175 Q225,175 225,255 Q225,270 160,270 Q95,270 95,255 Z"/>
+  <circle id="eyeL" cx="128" cy="182" r="30"/>
+  <circle id="eyeR" cx="192" cy="182" r="30"/>
+  <circle id="pupilL" cx="128" cy="182" r="13"/>
+  <circle id="pupilR" cx="192" cy="182" r="13"/>
+  <path id="mouth" d="M128,222 Q160,240 192,222 Q160,230 128,222 Z"/>
+</svg>

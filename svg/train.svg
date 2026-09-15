@@ -1,0 +1,9 @@
+<svg viewBox="0 0 320 320" xmlns="http://www.w3.org/2000/svg">
+  <rect id="background" x="1.5" y="1.5" width="317" height="317" rx="18"/>
+  <path id="chimney" d="M220,120 L236,120 L236,150 L220,150 Z"/>
+  <path id="boiler" d="M165,180 L165,235 L245,235 L245,180 Q245,150 205,150 Q165,150 165,180 Z"/>
+  <path id="cab" d="M85,150 L85,235 L165,235 L165,150 Q165,120 125,120 Q85,120 85,150 Z"/>
+  <circle id="wheelL" cx="115" cy="260" r="18"/>
+  <circle id="wheelM" cx="165" cy="260" r="18"/>
+  <circle id="wheelR" cx="215" cy="260" r="18"/>
+</svg>

@@ -1,0 +1,5 @@
+<svg viewBox="0 0 320 320" xmlns="http://www.w3.org/2000/svg">
+  <rect id="background" x="1.5" y="1.5" width="317" height="317" rx="18"/>
+  <path id="body" d="M110,90 Q110,50 160,50 Q210,50 210,90 L210,210 Q210,240 160,240 Q110,240 110,210 Z"/>
+  <path id="stick" d="M148,240 L172,240 L172,290 Q172,296 160,296 Q148,296 148,290 Z"/>
+</svg>

@@ -1,0 +1,11 @@
+<svg viewBox="0 0 320 320" xmlns="http://www.w3.org/2000/svg">
+  <rect id="background" x="1.5" y="1.5" width="317" height="317" rx="18"/>
+  <path id="earL" d="M118.99,108.99 L52.17,-4.00 L135.49,97.43 A58,58 0 0,1 118.99,108.99 Z"/>
+  <path id="earR" d="M184.51,97.43 L267.83,-4.00 L201.01,108.99 A58,58 0 0,1 184.51,97.43 Z"/>
+  <circle id="head" cx="160" cy="150" r="58"/>
+  <circle id="eyeL" cx="140" cy="142" r="9"/>
+  <circle id="eyeR" cx="180" cy="142" r="9"/>
+  <path id="nose" d="M152,162 L168,162 L160,172 Z"/>
+  <path id="body" d="M105,290 L105,240 Q105,205 160,205 Q215,205 215,240 L215,290 Z"/>
+  <circle id="tail" cx="233" cy="270" r="18"/>
+</svg>

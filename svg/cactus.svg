@@ -1,0 +1,7 @@
+<svg viewBox="0 0 320 320" xmlns="http://www.w3.org/2000/svg">
+  <rect id="background" x="1.5" y="1.5" width="317" height="317" rx="18"/>
+  <path id="pot" d="M100,270 L110,310 L210,310 L220,270 Z"/>
+  <path id="rim" d="M95,255 L225,255 L225,270 L95,270 Z"/>
+  <path id="arm" d="M190,220 L190,150 Q190,130 215,130 Q240,130 240,150 L240,190 Q240,205 225,205 L210,205 L210,220 Z"/>
+  <path id="body" d="M130,255 L130,110 Q130,90 160,90 Q190,90 190,110 L190,255 Z"/>
+</svg>

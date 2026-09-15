@@ -1,0 +1,8 @@
+<svg viewBox="0 0 320 320" xmlns="http://www.w3.org/2000/svg">
+  <rect id="background" x="1.5" y="1.5" width="317" height="317" rx="18"/>
+  <path id="exhaust" d="M195,140 L207,140 L207,180 L195,180 Z"/>
+  <path id="hood" d="M175,180 L175,225 L245,225 L245,190 Q245,180 230,180 Z"/>
+  <path id="cab" d="M90,130 L90,225 L175,225 L175,150 Q175,130 150,130 Z"/>
+  <circle id="wheelBig" cx="130" cy="250" r="35"/>
+  <circle id="wheelSmall" cx="222" cy="250" r="24"/>
+</svg>

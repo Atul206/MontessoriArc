@@ -1,0 +1,8 @@
+<svg viewBox="0 0 320 320" xmlns="http://www.w3.org/2000/svg">
+  <rect id="background" x="1.5" y="1.5" width="317" height="317" rx="18"/>
+  <path id="hull" d="M60,235 Q60,270 100,270 L220,270 Q260,270 260,235 L60,235 Z"/>
+  <path id="cabin" d="M100,160 L100,235 L220,235 L220,190 Q220,160 190,160 Z"/>
+  <circle id="win1" cx="122" cy="200" r="14"/>
+  <circle id="win2" cx="160" cy="200" r="14"/>
+  <circle id="win3" cx="198" cy="200" r="14"/>
+</svg>
