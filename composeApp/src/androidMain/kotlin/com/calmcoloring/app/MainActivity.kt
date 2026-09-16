@@ -4,11 +4,17 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.calmcoloring.app.platform.appContext
 import com.calmcoloring.app.platform.currentActivity
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
+        // Must run before super.onCreate() (androidx.core.splashscreen
+        // contract) — reads the Theme.CalmColoring.Starting attrs set on
+        // this activity in AndroidManifest.xml and hands off to
+        // Theme.CalmColoring automatically once the splash dismisses.
+        installSplashScreen()
         enableEdgeToEdge()
         super.onCreate(savedInstanceState)
         // Assigned here (ahead of Task 9's MainActivity work) so Task 6's print

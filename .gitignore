@@ -20,3 +20,6 @@ iosApp/**/*.xcworkspace/xcuserdata/
 iosApp/**/DerivedData/
 iosApp/**/.build/
 __pycache__/
+
+# Scratch dirs left behind by ad-hoc audit/analysis tooling
+.scratch/

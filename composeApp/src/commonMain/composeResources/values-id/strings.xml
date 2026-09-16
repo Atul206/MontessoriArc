@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_display_name">Calm Coloring</string>
+    <string name="parent_gate_title">Cek cepat untuk orang dewasa</string>
+    <string name="parent_gate_challenge">Berapa %1$d + %2$d?</string>
+    <string name="parent_gate_error">Belum tepat, coba lagi.</string>
+    <string name="action_continue">Lanjutkan</string>
+    <string name="action_cancel">Batal</string>
+    <string name="share_sheet_title">Bagikan gambar ini</string>
+    <string name="artist_name_label">Nama pelukis</string>
+    <string name="artist_name_placeholder">contoh: Maya</string>
+    <string name="cd_back_to_templates">Kembali ke daftar templat</string>
+    <string name="action_start_over">Mulai lagi</string>
+    <string name="cd_previous_template">Templat sebelumnya</string>
+    <string name="cd_next_template">Templat berikutnya</string>
+    <string name="gallery_subtitle">Tanpa suara · tanpa iklan · tanpa akun — cukup ketuk dan mewarnai.</string>
+    <string name="caption_painted_by">Dilukis oleh %1$s</string>
+    <string name="caption_anonymous_artist">Lukisan seniman kecil</string>
+    <string name="watermark_made_with">Dibuat dengan Calm Coloring</string>
+    <string name="share_target_more">Lainnya</string>
+    <string name="share_privacy_note">Berbagi hanya mengirim gambar ini — tidak ada data lain yang keluar dari perangkat.</string>
+    <string name="legal_link_text">Kebijakan Privasi &amp; Ketentuan</string>
+</resources>

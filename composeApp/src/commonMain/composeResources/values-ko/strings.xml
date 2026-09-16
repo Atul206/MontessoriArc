@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_display_name">Calm Coloring</string>
+    <string name="parent_gate_title">보호자 확인</string>
+    <string name="parent_gate_challenge">%1$d + %2$d 는 얼마일까요?</string>
+    <string name="parent_gate_error">다시 시도해 주세요.</string>
+    <string name="action_continue">계속</string>
+    <string name="action_cancel">취소</string>
+    <string name="share_sheet_title">이 그림 공유하기</string>
+    <string name="artist_name_label">작가 이름</string>
+    <string name="artist_name_placeholder">예: Maya</string>
+    <string name="cd_back_to_templates">템플릿 목록으로 돌아가기</string>
+    <string name="action_start_over">다시 시작</string>
+    <string name="cd_previous_template">이전 템플릿</string>
+    <string name="cd_next_template">다음 템플릿</string>
+    <string name="gallery_subtitle">소리 없음 · 광고 없음 · 계정 필요 없음 — 탭하고 색칠하기만 하면 돼요.</string>
+    <string name="caption_painted_by">%1$s 가 그렸어요</string>
+    <string name="caption_anonymous_artist">작은 화가의 그림</string>
+    <string name="watermark_made_with">Calm Coloring 로 제작</string>
+    <string name="share_target_more">더보기</string>
+    <string name="share_privacy_note">공유되는 것은 이 그림뿐이며, 그 외 다른 정보는 기기 밖으로 나가지 않습니다.</string>
+    <string name="legal_link_text">개인정보 보호정책 및 이용약관</string>
+</resources>

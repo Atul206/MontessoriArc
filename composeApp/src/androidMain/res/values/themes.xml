@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- The app's real (post-splash) theme — replaces the bare system
+         Theme.Material.Light.NoActionBar that shipped with no branding. -->
+    <style name="Theme.CalmColoring" parent="android:Theme.Material.Light.NoActionBar">
+        <item name="android:statusBarColor">@color/ic_launcher_background</item>
+        <item name="android:navigationBarColor">@color/ic_launcher_background</item>
+        <item name="android:windowBackground">@color/ic_launcher_background</item>
+    </style>
+
+    <!-- Splash theme (androidx.core:core-splashscreen, works back to
+         minSdk 24): the launcher icon's mark on its own background color,
+         handed off to Theme.CalmColoring once installSplashScreen()'s
+         splash dismisses. -->
+    <style name="Theme.CalmColoring.Starting" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/ic_launcher_background</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_launcher_foreground</item>
+        <item name="postSplashScreenTheme">@style/Theme.CalmColoring</item>
+    </style>
+</resources>

@@ -18,6 +18,10 @@ sqldelight {
     }
 }
 
+compose.resources {
+    packageOfResClass = "com.calmcoloring.app.generated.resources"
+}
+
 kotlin {
     androidTarget {
         @OptIn(ExperimentalKotlinGradlePluginApi::class)
@@ -70,6 +74,7 @@ kotlin {
             implementation(compose.uiTooling)
             implementation(libs.androidx.activity.compose)
             implementation(libs.androidx.core.ktx)
+            implementation(libs.androidx.core.splashscreen)
             implementation(libs.ktor.client.okhttp)
             implementation(libs.sqldelight.android.driver)
         }

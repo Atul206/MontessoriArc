@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_display_name">Calm Coloring</string>
+    <string name="parent_gate_title">Kurzer Check für Erwachsene</string>
+    <string name="parent_gate_challenge">Was ist %1$d + %2$d?</string>
+    <string name="parent_gate_error">Nicht ganz – versuch es noch einmal.</string>
+    <string name="action_continue">Weiter</string>
+    <string name="action_cancel">Abbrechen</string>
+    <string name="share_sheet_title">Dieses Bild teilen</string>
+    <string name="artist_name_label">Name des Künstlers</string>
+    <string name="artist_name_placeholder">z. B. Maya</string>
+    <string name="cd_back_to_templates">Zurück zu den Vorlagen</string>
+    <string name="action_start_over">Neu anfangen</string>
+    <string name="cd_previous_template">Vorherige Vorlage</string>
+    <string name="cd_next_template">Nächste Vorlage</string>
+    <string name="gallery_subtitle">Kein Ton · keine Werbung · kein Konto – einfach tippen und ausmalen.</string>
+    <string name="caption_painted_by">Gemalt von %1$s</string>
+    <string name="caption_anonymous_artist">Das Bild eines kleinen Künstlers</string>
+    <string name="watermark_made_with">Erstellt mit Calm Coloring</string>
+    <string name="share_target_more">Mehr</string>
+    <string name="share_privacy_note">Beim Teilen wird nur dieses Bild gesendet – sonst verlässt nichts das Gerät.</string>
+    <string name="legal_link_text">Datenschutz &amp; Bedingungen</string>
+</resources>

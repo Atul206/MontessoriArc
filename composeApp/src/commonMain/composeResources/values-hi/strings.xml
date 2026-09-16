@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_display_name">Calm Coloring</string>
+    <string name="parent_gate_title">बड़ों के लिए त्वरित जाँच</string>
+    <string name="parent_gate_challenge">%1$d + %2$d कितना होता है?</string>
+    <string name="parent_gate_error">बिल्कुल सही नहीं, फिर कोशिश करें।</string>
+    <string name="action_continue">जारी रखें</string>
+    <string name="action_cancel">रद्द करें</string>
+    <string name="share_sheet_title">यह चित्र शेयर करें</string>
+    <string name="artist_name_label">कलाकार का नाम</string>
+    <string name="artist_name_placeholder">उदा. माया</string>
+    <string name="cd_back_to_templates">टेम्पलेट्स पर वापस जाएँ</string>
+    <string name="action_start_over">फिर से शुरू करें</string>
+    <string name="cd_previous_template">पिछला टेम्पलेट</string>
+    <string name="cd_next_template">अगला टेम्पलेट</string>
+    <string name="gallery_subtitle">कोई आवाज़ नहीं · कोई विज्ञापन नहीं · कोई खाता नहीं — सिर्फ़ टैप करें और रंग भरें।</string>
+    <string name="caption_painted_by">%1$s द्वारा रंगा गया</string>
+    <string name="caption_anonymous_artist">एक नन्हे कलाकार की पेंटिंग</string>
+    <string name="watermark_made_with">Calm Coloring से बनाया गया</string>
+    <string name="share_target_more">और</string>
+    <string name="share_privacy_note">शेयर करने पर सिर्फ़ यह चित्र भेजा जाता है — डिवाइस से और कुछ भी नहीं जाता।</string>
+    <string name="legal_link_text">निजता नीति व नियम</string>
+</resources>

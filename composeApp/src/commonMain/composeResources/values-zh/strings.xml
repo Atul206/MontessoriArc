@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_display_name">Calm Coloring</string>
+    <string name="parent_gate_title">给家长的快速确认</string>
+    <string name="parent_gate_challenge">%1$d + %2$d 等于多少？</string>
+    <string name="parent_gate_error">不太对，请再试一次。</string>
+    <string name="action_continue">继续</string>
+    <string name="action_cancel">取消</string>
+    <string name="share_sheet_title">分享这张作品</string>
+    <string name="artist_name_label">小画家的名字</string>
+    <string name="artist_name_placeholder">例如：Maya</string>
+    <string name="cd_back_to_templates">返回模板列表</string>
+    <string name="action_start_over">重新开始</string>
+    <string name="cd_previous_template">上一个模板</string>
+    <string name="cd_next_template">下一个模板</string>
+    <string name="gallery_subtitle">无声音·无广告·无需账号——只需点一点，涂上颜色。</string>
+    <string name="caption_painted_by">由 %1$s 绘制</string>
+    <string name="caption_anonymous_artist">小画家的作品</string>
+    <string name="watermark_made_with">由 Calm Coloring 制作</string>
+    <string name="share_target_more">更多</string>
+    <string name="share_privacy_note">分享只会发送这张作品，设备上不会传出其他任何信息。</string>
+    <string name="legal_link_text">隐私政策与条款</string>
+</resources>

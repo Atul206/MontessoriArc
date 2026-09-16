@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Three overlapping tap-to-fill "blobs" in the app's own muted palette
+    (CalmPalette Sky/Clay/Sage) — the same 108dp adaptive-icon canvas with a
+    66dp safe-zone circle used by branding/app-icon-1024.png, so the launcher
+    icon, the store listing icon, and the in-app palette all read as the
+    same mark.
+-->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <path
+        android:pathData="M40,42 a14,14 0 1,0 28,0 a14,14 0 1,0 -28,0 Z"
+        android:fillColor="#7E97A6" />
+    <path
+        android:pathData="M29,63 a14,14 0 1,0 28,0 a14,14 0 1,0 -28,0 Z"
+        android:fillColor="#C98B7A" />
+    <path
+        android:pathData="M51,63 a14,14 0 1,0 28,0 a14,14 0 1,0 -28,0 Z"
+        android:fillColor="#8FA382" />
+</vector>

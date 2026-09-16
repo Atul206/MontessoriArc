@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Matches CalmPalette.BgLight (#F1ECE2) — the app icon's adaptive-icon background layer. -->
+    <color name="ic_launcher_background">#F1ECE2</color>
+</resources>

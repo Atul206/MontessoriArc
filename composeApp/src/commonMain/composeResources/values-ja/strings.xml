@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_display_name">Calm Coloring</string>
+    <string name="parent_gate_title">保護者の方への簡単な確認</string>
+    <string name="parent_gate_challenge">%1$d + %2$d はいくつ？</string>
+    <string name="parent_gate_error">違うようです。もう一度お試しください。</string>
+    <string name="action_continue">続ける</string>
+    <string name="action_cancel">キャンセル</string>
+    <string name="share_sheet_title">この作品をシェア</string>
+    <string name="artist_name_label">作者の名前</string>
+    <string name="artist_name_placeholder">例：Maya</string>
+    <string name="cd_back_to_templates">テンプレート一覧に戻る</string>
+    <string name="action_start_over">はじめから</string>
+    <string name="cd_previous_template">前のテンプレート</string>
+    <string name="cd_next_template">次のテンプレート</string>
+    <string name="gallery_subtitle">音もなし・広告もなし・アカウントも不要。タップして色をぬるだけ。</string>
+    <string name="caption_painted_by">%1$s が描きました</string>
+    <string name="caption_anonymous_artist">小さなアーティストの作品</string>
+    <string name="watermark_made_with">Calm Coloring で作成</string>
+    <string name="share_target_more">その他</string>
+    <string name="share_privacy_note">共有されるのはこの作品だけです。ほかの情報は一切送信されません。</string>
+    <string name="legal_link_text">プライバシーポリシーと利用規約</string>
+</resources>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_display_name">Calm Coloring</string>
+    <string name="parent_gate_title">فحص سريع للكبار</string>
+    <string name="parent_gate_challenge">كم يساوي %1$d + %2$d؟</string>
+    <string name="parent_gate_error">ليست صحيحة تمامًا، حاول مرة أخرى.</string>
+    <string name="action_continue">استمرار</string>
+    <string name="action_cancel">إلغاء</string>
+    <string name="share_sheet_title">مشاركة هذه الصورة</string>
+    <string name="artist_name_label">اسم الرسّام الصغير</string>
+    <string name="artist_name_placeholder">مثال: مايا</string>
+    <string name="cd_back_to_templates">الرجوع إلى القوالب</string>
+    <string name="action_start_over">البدء من جديد</string>
+    <string name="cd_previous_template">القالب السابق</string>
+    <string name="cd_next_template">القالب التالي</string>
+    <string name="gallery_subtitle">بلا صوت · بلا إعلانات · بلا حسابات — فقط اضغط ولوّن.</string>
+    <string name="caption_painted_by">رسمها %1$s</string>
+    <string name="caption_anonymous_artist">لوحة رسّام صغير</string>
+    <string name="watermark_made_with">أُنشئت بواسطة Calm Coloring</string>
+    <string name="share_target_more">أخرى</string>
+    <string name="share_privacy_note">لا تُرسِل المشاركة سوى هذه الصورة — لا يغادر الجهاز أي شيء آخر.</string>
+    <string name="legal_link_text">سياسة الخصوصية والشروط</string>
+</resources>

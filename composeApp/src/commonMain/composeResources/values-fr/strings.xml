@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_display_name">Calm Coloring</string>
+    <string name="parent_gate_title">Petite vérification pour les grands</string>
+    <string name="parent_gate_challenge">Combien font %1$d + %2$d ?</string>
+    <string name="parent_gate_error">Pas tout à fait, réessaie.</string>
+    <string name="action_continue">Continuer</string>
+    <string name="action_cancel">Annuler</string>
+    <string name="share_sheet_title">Partager ce dessin</string>
+    <string name="artist_name_label">Nom de l'artiste</string>
+    <string name="artist_name_placeholder">ex. Maya</string>
+    <string name="cd_back_to_templates">Retour aux modèles</string>
+    <string name="action_start_over">Recommencer</string>
+    <string name="cd_previous_template">Modèle précédent</string>
+    <string name="cd_next_template">Modèle suivant</string>
+    <string name="gallery_subtitle">Pas de son · pas de pub · pas de compte — on touche et on colorie.</string>
+    <string name="caption_painted_by">Peint par %1$s</string>
+    <string name="caption_anonymous_artist">Le dessin d'un petit artiste</string>
+    <string name="watermark_made_with">Réalisé avec Calm Coloring</string>
+    <string name="share_target_more">Plus</string>
+    <string name="share_privacy_note">Le partage n'envoie que ce dessin — rien d'autre ne quitte jamais l'appareil.</string>
+    <string name="legal_link_text">Confidentialité et conditions</string>
+</resources>

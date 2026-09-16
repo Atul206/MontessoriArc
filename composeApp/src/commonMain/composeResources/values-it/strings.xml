@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_display_name">Calm Coloring</string>
+    <string name="parent_gate_title">Verifica veloce per adulti</string>
+    <string name="parent_gate_challenge">Quanto fa %1$d + %2$d?</string>
+    <string name="parent_gate_error">Non proprio, riprova.</string>
+    <string name="action_continue">Continua</string>
+    <string name="action_cancel">Annulla</string>
+    <string name="share_sheet_title">Condividi questo disegno</string>
+    <string name="artist_name_label">Nome dell'artista</string>
+    <string name="artist_name_placeholder">es. Maya</string>
+    <string name="cd_back_to_templates">Torna ai modelli</string>
+    <string name="action_start_over">Ricomincia</string>
+    <string name="cd_previous_template">Modello precedente</string>
+    <string name="cd_next_template">Modello successivo</string>
+    <string name="gallery_subtitle">Niente suoni · niente pubblicità · niente account: basta toccare e colorare.</string>
+    <string name="caption_painted_by">Dipinto da %1$s</string>
+    <string name="caption_anonymous_artist">Il disegno di un piccolo artista</string>
+    <string name="watermark_made_with">Creato con Calm Coloring</string>
+    <string name="share_target_more">Altro</string>
+    <string name="share_privacy_note">La condivisione invia solo questo disegno: nient'altro lascia il dispositivo.</string>
+    <string name="legal_link_text">Privacy e termini</string>
+</resources>

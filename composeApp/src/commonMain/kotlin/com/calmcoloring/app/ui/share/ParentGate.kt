@@ -5,6 +5,13 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.calmcoloring.app.generated.resources.Res
+import com.calmcoloring.app.generated.resources.action_cancel
+import com.calmcoloring.app.generated.resources.action_continue
+import com.calmcoloring.app.generated.resources.parent_gate_challenge
+import com.calmcoloring.app.generated.resources.parent_gate_error
+import com.calmcoloring.app.generated.resources.parent_gate_title
+import org.jetbrains.compose.resources.stringResource
 
 class ParentGateState(private val a: Int, private val b: Int) {
     val challenge: Pair<Int, Int> get() = a to b
@@ -27,16 +34,16 @@ fun ParentGateDialog(onPassed: () -> Unit, onDismiss: () -> Unit) {
 
     AlertDialog(
         onDismissRequest = onDismiss,
-        title = { Text("Quick check for grown-ups") },
+        title = { Text(stringResource(Res.string.parent_gate_title)) },
         text = {
             Column {
-                Text("What's ${gate.challenge.first} + ${gate.challenge.second}?")
+                Text(stringResource(Res.string.parent_gate_challenge, gate.challenge.first, gate.challenge.second))
                 Spacer(Modifier.height(8.dp))
                 OutlinedTextField(
                     value = answer,
                     onValueChange = { answer = it; showError = false },
                     isError = showError,
-                    supportingText = if (showError) { { Text("Not quite — try again.") } } else null,
+                    supportingText = if (showError) { { Text(stringResource(Res.string.parent_gate_error)) } } else null,
                     singleLine = true,
                 )
             }
@@ -45,8 +52,8 @@ fun ParentGateDialog(onPassed: () -> Unit, onDismiss: () -> Unit) {
             TextButton(onClick = {
                 val parsed = answer.toIntOrNull()
                 if (parsed != null && gate.check(parsed)) onPassed() else showError = true
-            }) { Text("Continue") }
+            }) { Text(stringResource(Res.string.action_continue)) }
         },
-        dismissButton = { TextButton(onClick = onDismiss) { Text("Cancel") } },
+        dismissButton = { TextButton(onClick = onDismiss) { Text(stringResource(Res.string.action_cancel)) } },
     )
 }

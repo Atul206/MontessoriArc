@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_display_name">Calm Coloring</string>
+    <string name="parent_gate_title">Быстрая проверка для взрослых</string>
+    <string name="parent_gate_challenge">Сколько будет %1$d + %2$d?</string>
+    <string name="parent_gate_error">Не совсем — попробуйте снова.</string>
+    <string name="action_continue">Продолжить</string>
+    <string name="action_cancel">Отмена</string>
+    <string name="share_sheet_title">Поделиться рисунком</string>
+    <string name="artist_name_label">Имя художника</string>
+    <string name="artist_name_placeholder">например, Мая</string>
+    <string name="cd_back_to_templates">Назад к шаблонам</string>
+    <string name="action_start_over">Начать сначала</string>
+    <string name="cd_previous_template">Предыдущий шаблон</string>
+    <string name="cd_next_template">Следующий шаблон</string>
+    <string name="gallery_subtitle">Без звука · без рекламы · без учётных записей — просто нажми и раскрась.</string>
+    <string name="caption_painted_by">Нарисовано: %1$s</string>
+    <string name="caption_anonymous_artist">Рисунок маленького художника</string>
+    <string name="watermark_made_with">Создано в Calm Coloring</string>
+    <string name="share_target_more">Ещё</string>
+    <string name="share_privacy_note">При отправке передаётся только этот рисунок — больше ничего не покидает устройство.</string>
+    <string name="legal_link_text">Политика конфиденциальности и условия</string>
+</resources>

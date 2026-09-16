@@ -16,9 +16,20 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
+import com.calmcoloring.app.generated.resources.Res
+import com.calmcoloring.app.generated.resources.app_display_name
+import com.calmcoloring.app.generated.resources.gallery_subtitle
+import com.calmcoloring.app.generated.resources.legal_link_text
 import com.calmcoloring.app.model.Template
+import com.calmcoloring.app.platform.openUrl
 import com.calmcoloring.app.ui.canvas.drawTemplate
+import org.jetbrains.compose.resources.stringResource
+
+// Hosted alongside this repo's other GitHub Pages content (see
+// design/calm-coloring-ui-mockup.html) — no backend, just a static page.
+private const val LEGAL_URL = "https://atul206.github.io/MontessoriArc/legal/"
 
 /**
  * A lightweight, non-interactive render of [template]'s line art for use in
@@ -61,7 +72,7 @@ fun GalleryScreen(
     // safeDrawing merge (avoids double-padding).
     Column(modifier = modifier.fillMaxSize().safeDrawingPadding()) {
         Text(
-            "Calm Coloring",
+            stringResource(Res.string.app_display_name),
             style = MaterialTheme.typography.titleMedium,
             modifier = Modifier.padding(16.dp),
         )
@@ -100,9 +111,18 @@ fun GalleryScreen(
             }
         }
         Text(
-            "No sound · no ads · no accounts — just tap and color.",
+            stringResource(Res.string.gallery_subtitle),
             style = MaterialTheme.typography.labelSmall,
-            modifier = Modifier.fillMaxWidth().padding(16.dp),
+            modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp),
+            textAlign = TextAlign.Center,
+        )
+        Text(
+            stringResource(Res.string.legal_link_text),
+            style = MaterialTheme.typography.labelSmall.copy(textDecoration = TextDecoration.Underline),
+            modifier = Modifier
+                .fillMaxWidth()
+                .clickable { openUrl(LEGAL_URL) }
+                .padding(16.dp),
             textAlign = TextAlign.Center,
         )
     }

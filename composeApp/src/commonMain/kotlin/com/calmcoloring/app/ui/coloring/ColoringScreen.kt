@@ -29,11 +29,18 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
+import com.calmcoloring.app.generated.resources.Res
+import com.calmcoloring.app.generated.resources.action_start_over
+import com.calmcoloring.app.generated.resources.cd_back_to_templates
+import com.calmcoloring.app.generated.resources.cd_next_template
+import com.calmcoloring.app.generated.resources.cd_previous_template
+import com.calmcoloring.app.generated.resources.share_sheet_title
 import com.calmcoloring.app.model.Template
 import com.calmcoloring.app.theme.CalmPalette
 import com.calmcoloring.app.ui.SystemBackHandler
 import com.calmcoloring.app.ui.canvas.RegionCanvas
 import kotlinx.coroutines.launch
+import org.jetbrains.compose.resources.stringResource
 
 // Standard Material/platform touch-target minimum for toolbar icon buttons.
 // (The PRD's 2cm physical-size floor is intended for the coloring canvas's
@@ -99,11 +106,11 @@ fun ColoringScreen(
             verticalAlignment = Alignment.CenterVertically,
         ) {
             IconButton(onClick = onBack, modifier = Modifier.size(TOPBAR_ICON_SIZE)) {
-                Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back to templates")
+                Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = stringResource(Res.string.cd_back_to_templates))
             }
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 Text(template.name, style = MaterialTheme.typography.titleMedium)
-                TextButton(onClick = { viewModel.reset() }) { Text("Start over") }
+                TextButton(onClick = { viewModel.reset() }) { Text(stringResource(Res.string.action_start_over)) }
             }
             IconButton(
                 onClick = {
@@ -111,7 +118,7 @@ fun ColoringScreen(
                 },
                 modifier = Modifier.size(TOPBAR_ICON_SIZE),
             ) {
-                Icon(Icons.Filled.Share, contentDescription = "Share this picture")
+                Icon(Icons.Filled.Share, contentDescription = stringResource(Res.string.share_sheet_title))
             }
         }
 
@@ -125,12 +132,12 @@ fun ColoringScreen(
         ) {
             NavArrowRail(
                 icon = Icons.Filled.KeyboardArrowLeft,
-                contentDescription = "Previous template",
+                contentDescription = stringResource(Res.string.cd_previous_template),
                 onClick = onPrevious,
             )
             NavArrowRail(
                 icon = Icons.Filled.KeyboardArrowRight,
-                contentDescription = "Next template",
+                contentDescription = stringResource(Res.string.cd_next_template),
                 onClick = onNext,
             )
         }
