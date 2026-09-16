@@ -23,3 +23,8 @@ __pycache__/
 
 # Scratch dirs left behind by ad-hoc audit/analysis tooling
 .scratch/
+
+# Release signing key + its passwords — never commit these.
+keystore/*.jks
+keystore/*.keystore
+keystore/keystore.properties
