@@ -77,7 +77,12 @@ fun GalleryScreen(
             modifier = Modifier.padding(16.dp),
         )
         LazyVerticalGrid(
-            columns = GridCells.Fixed(2),
+            // Adaptive rather than Fixed(2): a fixed 2-column grid left a
+            // huge tablet width (e.g. a 2560px landscape tablet) rendering
+            // just 2 giant cards — Adaptive fits as many 160dp-minimum
+            // cards as the available width allows, so phones still get 2
+            // columns while tablets naturally get 4-6.
+            columns = GridCells.Adaptive(minSize = 160.dp),
             contentPadding = PaddingValues(16.dp),
             horizontalArrangement = Arrangement.spacedBy(12.dp),
             verticalArrangement = Arrangement.spacedBy(12.dp),
